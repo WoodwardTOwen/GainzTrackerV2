@@ -13,6 +13,8 @@ data class WeightedExerciseData(
 
     val date: Date?,
 
+
+    //HELLO TEST TEST TEST
     var weight: Double,
     @ColumnInfo(name = "repetitions")
     var reps: Int,
