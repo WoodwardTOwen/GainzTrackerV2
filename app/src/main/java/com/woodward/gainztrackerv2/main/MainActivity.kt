@@ -1,7 +1,8 @@
-package com.woodward.gainztrackerv2
+package com.woodward.gainztrackerv2.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.woodward.gainztrackerv2.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

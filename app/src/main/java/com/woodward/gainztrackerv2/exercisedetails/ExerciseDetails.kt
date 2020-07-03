@@ -12,16 +12,6 @@ import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseDetailsBinding
 import com.woodward.gainztrackerv2.repository.ExerciseRepository
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ExerciseDetails.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ExerciseDetails : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding: FragmentExerciseDetailsBinding = DataBindingUtil.inflate(
@@ -31,14 +21,14 @@ class ExerciseDetails : Fragment() {
         val application = requireNotNull(this.activity).application
         // Create an instance of the ViewModel Factory.
         val dataSource = ExerciseRepository
+        //Instantiates one and only one ViewModel
         val viewModelFactory = ExerciseDetailsViewModelFactory(dataSource, application)
-
         // Get a reference to the ViewModel associated with this fragment.
-        val sleepTrackerViewModel =
+        val exerciseDetailsViewModel =
             ViewModelProvider(this, viewModelFactory).get(ExerciseDetailsViewModel::class.java)
 
         //Assign Binding variable to have communication with the ViewModel
-        binding.viewModel = sleepTrackerViewModel
+        binding.viewModel = exerciseDetailsViewModel
 
         //Ensuring the binding has the lifecycle authorisation so LiveData can operate correctly
         binding.lifecycleOwner = this

@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/navigation"
-    app:startDestination="@id/exerciseDetails">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainUI">
 
 
     <fragment
         android:id="@+id/exerciseDetails"
         android:name="com.woodward.gainztrackerv2.exercisedetails.ExerciseDetails"
-        android:label="ExerciseDetails" />
+        android:label="ExerciseDetails"
+        tools:layout="@layout/fragment_exercise_details"
+        />
+    <fragment
+        android:id="@+id/mainUI"
+        android:name="com.woodward.gainztrackerv2.main.MainUI"
+        android:label="MainUI"
+        tools:layout="@layout/fragment_main_u_i"
+        >
+        <action
+            android:id="@+id/action_mainUI_to_exerciseDetails"
+            app:destination="@id/exerciseDetails" />
+    </fragment>
 </navigation>

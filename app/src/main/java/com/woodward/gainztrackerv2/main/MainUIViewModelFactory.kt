@@ -1,19 +1,19 @@
-package com.woodward.gainztrackerv2.exercisedetails
+package com.woodward.gainztrackerv2.main
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.woodward.gainztrackerv2.repository.ExerciseRepository
 
-class ExerciseDetailsViewModelFactory(
+class MainUIViewModelFactory(
     private val repository: ExerciseRepository,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ExerciseDetailsViewModel::class.java)) {
-            return ExerciseDetailsViewModel(repository, application) as T
+        if (modelClass.isAssignableFrom(MainUIViewModel::class.java)) {
+            return MainUIViewModel(repository, application) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class - ExerciseDetailsViewModel")
+        throw IllegalArgumentException("Unknown ViewModel class - MainUIViewModel")
     }
 }
