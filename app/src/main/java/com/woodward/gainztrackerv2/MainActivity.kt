@@ -1,4 +1,4 @@
-package com.example.gainztrackerv2
+package com.woodward.gainztrackerv2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

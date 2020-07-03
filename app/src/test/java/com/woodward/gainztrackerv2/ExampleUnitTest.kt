@@ -1,4 +1,4 @@
-package com.example.gainztrackerv2
+package com.woodward.gainztrackerv2
 
 import org.junit.Test
 
