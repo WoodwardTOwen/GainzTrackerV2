@@ -11,8 +11,12 @@ import androidx.room.ForeignKey.CASCADE
 
 data class ExerciseType (
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "Id")
     var exerciseTypeID: Int,
+    @ColumnInfo(name = "Name")
     var exerciseTypeName: String,
     @ColumnInfo(name = "Category_ID_FK")
-    var categoryID: Int
+    var categoryID: Int,
+    @ColumnInfo(name = "Is_Cardio")
+    var isCardio: Boolean
 )

@@ -8,9 +8,9 @@
 
     <fragment
         android:id="@+id/exerciseDetails"
-        android:name="com.woodward.gainztrackerv2.exercisedetails.ExerciseDetails"
+        android:name="com.woodward.gainztrackerv2.exercisedetails.weights.ExerciseDetailsWeights"
         android:label="ExerciseDetails"
-        tools:layout="@layout/fragment_exercise_details"
+        tools:layout="@layout/fragment_exercise_details_weights"
         />
     <fragment
         android:id="@+id/mainUI"
@@ -20,6 +20,8 @@
         >
         <action
             android:id="@+id/action_mainUI_to_exerciseDetails"
-            app:destination="@id/exerciseDetails" />
+            app:destination="@id/exerciseDetails"
+            app:popUpTo="@id/mainUI"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

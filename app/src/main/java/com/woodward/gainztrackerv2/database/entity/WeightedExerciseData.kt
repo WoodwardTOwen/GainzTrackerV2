@@ -8,10 +8,11 @@ import java.sql.Date
 @Entity(tableName = "Weight_Exercise_Data_Table")
 data class WeightedExerciseData(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "Id")
     var exerciseId: Long = 0L,
-    @ColumnInfo(name = "exercise_name")
+    @ColumnInfo(name = "Name")
     val exerciseName: String?,
-    val date: Date?,
+    val date: String?,
     var weight: Double,
     @ColumnInfo(name = "repetitions")
     var reps: Int,

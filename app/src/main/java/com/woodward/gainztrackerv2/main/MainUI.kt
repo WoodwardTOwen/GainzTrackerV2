@@ -9,10 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.woodward.gainztrackerv2.R
+import com.woodward.gainztrackerv2.database.dao.WeightedExerciseDao
 import com.woodward.gainztrackerv2.databinding.FragmentMainUIBinding
 import com.woodward.gainztrackerv2.repository.ExerciseRepository
+import com.woodward.gainztrackerv2.utils.Injection
 
 class MainUI : Fragment() {
+
+    private lateinit var mainUIViewModel: MainUIViewModel
+    private lateinit var viewModelFactory: MainUIViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,11 +28,9 @@ class MainUI : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
-        val dataSource = ExerciseRepository
+        viewModelFactory = Injection.provideMainUIViewModelFactory(application)
 
-        val viewModelFactory = MainUIViewModelFactory(dataSource, application)
-
-        val mainUIViewModel = ViewModelProvider(this, viewModelFactory).get(MainUIViewModel::class.java)
+        mainUIViewModel = ViewModelProvider(this, viewModelFactory).get(MainUIViewModel::class.java)
 
         binding.viewModel = mainUIViewModel
 
@@ -38,5 +41,9 @@ class MainUI : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }

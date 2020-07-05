@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.woodward.gainztrackerv2.repository.ExerciseRepository
 
 class MainUIViewModelFactory(
-    private val repository: ExerciseRepository,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainUIViewModel::class.java)) {
-            return MainUIViewModel(repository, application) as T
+            return MainUIViewModel(application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class - MainUIViewModel")
     }

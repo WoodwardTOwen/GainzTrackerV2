@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.woodward.gainztrackerv2.exercisedetails.ExerciseDetailsViewModel" />
+            type="com.woodward.gainztrackerv2.exercisedetails.weights.ExerciseDetailsViewModelWeights" />
 
     </data>
 
