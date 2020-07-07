@@ -18,16 +18,6 @@ class ExerciseDetailsViewModelWeights (application: Application) : ViewModel() {
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     /**
-     * Requires Repository methods to be implemented first
-     * Needs [Date] also in thw switchMap -> needs re-doing
-     */
-
-   /* private val _ExerciseData = MutableLiveData<List<WeightedExerciseData>>()
-    val exerciseData: LiveData<List<WeightedExerciseData>> = Transformations.switchMap(currentDate) {
-        currentDate -> repository.getExercises(currentDate)
-    }*/
-
-    /**
      * For the current time in the user application state
      */
     private val _currentDate = MutableLiveData<String>()

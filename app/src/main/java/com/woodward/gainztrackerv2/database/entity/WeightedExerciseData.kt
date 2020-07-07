@@ -9,7 +9,7 @@ import java.sql.Date
 data class WeightedExerciseData(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "Id")
-    var exerciseId: Long = 0L,
+    var exerciseId: Int,
     @ColumnInfo(name = "Name")
     val exerciseName: String?,
     val date: String?,
