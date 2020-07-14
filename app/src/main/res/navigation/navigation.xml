@@ -23,5 +23,34 @@
             app:destination="@id/exerciseDetails"
             app:popUpTo="@id/mainUI"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_mainUI_to_categoryPage"
+            app:destination="@id/categoryPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryPage"
+        android:name="com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryFragment"
+        android:label="fragment_category_page"
+        tools:layout="@layout/fragment_category_page" >
+        <action
+            android:id="@+id/action_categoryPage_to_addNewCategory"
+            app:destination="@id/addNewCategory" />
+        <action
+            android:id="@+id/action_categoryPage_to_exerciseTypePage"
+            app:destination="@id/exerciseTypePage" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNewCategory"
+        android:name="com.woodward.gainztrackerv2.exerciseselection.categoryselection.newcategory.AddNewCategory"
+        android:label="fragment_add_new_category"
+        tools:layout="@layout/fragment_add_new_category" />
+    <fragment
+        android:id="@+id/exerciseTypePage"
+        android:name="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.ExerciseTypeFragment"
+        android:label="fragment_exercise_type_page"
+        tools:layout="@layout/fragment_exercise_type_page">
+        <argument
+            android:name="CategoryID"
+            app:argType="integer" />
     </fragment>
 </navigation>

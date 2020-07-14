@@ -1,0 +1,40 @@
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.ExerciseTypeViewModel" />
+
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.ExerciseTypeFragment">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".weight_tracking_package.CategoryRecyclerView">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/exercise_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#35373b" />
+
+            <TextView
+                android:id="@+id/no_categories_available_TextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/noCategoriesAvailable"
+                android:visibility="gone" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </FrameLayout>
+
+</layout>

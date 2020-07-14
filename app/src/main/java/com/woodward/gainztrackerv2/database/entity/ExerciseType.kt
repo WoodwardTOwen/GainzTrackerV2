@@ -3,7 +3,7 @@ package com.woodward.gainztrackerv2.database.entity
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
-@Entity(tableName = "ExerciseTypeTable",
+@Entity(tableName = "Exercise_Type_Table",
     indices = [Index(value = ["Category_ID_FK"])],
     foreignKeys = [ForeignKey(entity = Category::class,
     parentColumns = ["Category_ID"],

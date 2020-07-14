@@ -1,5 +1,6 @@
 package com.woodward.gainztrackerv2.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
 
@@ -19,4 +20,7 @@ interface ExerciseTypeDao{
 
     @Delete
     suspend fun Delete(exerciseType: ExerciseType?)
+
+    @Query("SELECT * FROM exercise_type_table WHERE Id=:catId ORDER BY Name ASC")
+    fun getExerciseTypeList(catId : Int) : LiveData<List<ExerciseType?>>
 }

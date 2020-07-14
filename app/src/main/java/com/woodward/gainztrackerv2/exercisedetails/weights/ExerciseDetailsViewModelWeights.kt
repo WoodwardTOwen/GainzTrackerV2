@@ -36,21 +36,32 @@ class ExerciseDetailsViewModelWeights (application: Application) : ViewModel() {
         _currentDate.value = date
     }
 
+    /**
+     * Alerts the repository to interact with the database to commit an insert action
+     */
     suspend fun insertData(weightData: WeightedExerciseData) = viewModelScope.launch(Dispatchers.IO) {
             repository.insertWeightExerciseData(weightData)
     }
 
+    /**
+     * Alerts the repository to interact with the database to commit an update action
+     */
     suspend fun updateData(weightData: WeightedExerciseData) = viewModelScope.launch(Dispatchers.IO){
             repository.updateWeightExerciseData(weightData)
     }
 
-    //May need changing
-    override fun onCleared() {
-        super.onCleared()
-        viewModelScope.cancel()
+    /**
+     * Alerts the repository to interact with the database to commit an delete action
+     */
+    suspend fun deleteData(weightData: WeightedExerciseData) = viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteWeightExerciseData(weightData)
     }
 
     /**
-     * Kept here just in case if the above overridden method doesn't operate correctly
+     * Clears up the jobs so the coroutine wont be stuck in the background if the ViewModel is destroyed
      */
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 }

@@ -11,20 +11,19 @@ import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
  */
 
 @BindingAdapter("setsFormatted") //Might need re-writing
-fun setsFormatted(view: TextView, item: WeightedExerciseData?) {
+fun TextView.setsFormatted(item: Int?) {
     item?.let {
-        view.setText(R.string.SetsNormal + item.sets)
+        this.text = "${this.context.getString(R.string.Sets)} ${item}"
     }
 }
-
 /**
  * For the Main RecyclerView in the Main UI -> Binding adapter for the exercise name
  */
 
 @BindingAdapter("exerciseNameFormatted")
-fun exerciseNameFormatted(view: TextView, item: WeightedExerciseData?) {
+fun TextView.exerciseNameFormatted(item: String?) {
     item?.let {
-        view.text = item.exerciseName
+        this.text = if (item.isNullOrEmpty()) "" else "$item"
     }
 }
 

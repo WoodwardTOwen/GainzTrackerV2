@@ -2,6 +2,7 @@ package com.woodward.gainztrackerv2.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.woodward.gainztrackerv2.database.entity.ExerciseSetPlaceHolderClass
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 
 //NEED RE WRITING -> the null acceptance needs re doing
@@ -39,8 +40,8 @@ interface WeightedExerciseDao {
      * Similar to query above however tries a different approach to be attempted for deleting data
      */
 
-    @Query("delete from weight_exercise_data_table where Name in (:exerciseName) and Date in (:dateList)")
-    suspend fun DeleteMultipleData(exerciseName: List<String>?, dateList: List<String?>)
+    @Query("delete from weight_exercise_data_table where Name = :exerciseName and Date = :date")
+    suspend fun DeleteMultipleData(exerciseName: String, date: String)
 
     /**
      * Need a query for the above interaction like the one below: Needs re writing
@@ -62,8 +63,11 @@ interface WeightedExerciseDao {
      * Gets exercise name and sets based on date
      * Again -> maybe incorrect format -> Should only get one record
      */
-    @Query("SELECT DISTINCT Name, sets FROM weight_exercise_data_table WHERE date = :date")
+    @Query("SELECT DISTINCT * FROM weight_exercise_data_table WHERE date = :date")
     fun GetNameAndSetsForDate(date: String?): LiveData<List<WeightedExerciseData?>>
+
+    /*@Query("SELECT DISTINCT Name, sets FROM weight_exercise_data_table WHERE date = :date")
+    fun GetNameSetsForDatePlaceHolder(date: String?): LiveData<List<ExerciseSetPlaceHolderClass?>>*/
 
     //Get all exercises that match the current date
     @Query("SELECT * FROM weight_exercise_data_table WHERE date = :date")

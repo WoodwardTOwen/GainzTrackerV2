@@ -25,8 +25,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#858b97"
-            android:padding="8dp"
+            android:background="#cccccc"
+            android:padding="10dp"
             android:onClick="@{() -> clickListener.onClick(exercise)}"
             >
             <!-- onClick goes here -->
@@ -38,8 +38,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:layout_centerInParent="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:setsFormatted="@{exercise}"
+                app:setsFormatted="@{exercise.sets}"
                 tools:text="@string/Sets" />
 
             <TextView
@@ -49,10 +51,12 @@
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@+id/mainRecyclerTextViewSets"
                 android:ellipsize="end"
+                android:textSize="16sp"
+                android:layout_centerInParent="true"
                 android:fontFamily="@font/roboto"
                 android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:exerciseNameFormatted="@{exercise}"
+                app:exerciseNameFormatted="@{exercise.exerciseName}"
                 tools:text="Barbell Bench Press" />
 
         </RelativeLayout>

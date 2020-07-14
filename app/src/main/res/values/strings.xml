@@ -3,11 +3,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     /Formatting for the RecyclerView Binding Adapters
     <string name="Sets"><b>Sets: </b></string>
     <string name="SetsNormal">Sets</string>
     <string name="Kg">Kg</string>
     <string name="Reps">Reps</string>
     <string name="RPE">RPE</string>
+
+
+    //Categories
+    <string name="noCategoriesAvailable">No Categories Available</string>
+    <string name="addCategory">Add Category</string>
 </resources>

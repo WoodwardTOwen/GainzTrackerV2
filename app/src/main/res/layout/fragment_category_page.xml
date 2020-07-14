@@ -1,0 +1,49 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryFragment">
+
+    <data>
+
+        <variable
+            name="categoryViewModel"
+            type="com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryViewModel" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/nav_container_category"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".weight_tracking_package.CategoryRecyclerView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/category_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#35373b"
+                    tools:listitem="@layout/list_item_category_details" />
+
+                <TextView
+                    android:id="@+id/no_categories_available_TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto"
+                    android:gravity="center"
+                    android:text="@string/noCategoriesAvailable"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </FrameLayout>
+
+</layout>

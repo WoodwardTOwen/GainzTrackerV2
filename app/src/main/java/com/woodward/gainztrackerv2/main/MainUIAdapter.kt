@@ -3,14 +3,12 @@ package com.woodward.gainztrackerv2.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import com.woodward.gainztrackerv2.databinding.ListItemMainUiBinding
 
-class MainUIAdapter(/*val clickListener: MainUIAdapterListener*/) :
+class MainUIAdapter(val clickListener: MainUIAdapterListener) :
     ListAdapter<WeightedExerciseData, MainUIAdapter.ViewHolder>(WeightExerciseDiffUtil()) {
 
 
@@ -25,8 +23,7 @@ class MainUIAdapter(/*val clickListener: MainUIAdapterListener*/) :
      * Displays data at certain position for the recyclerview UI -> should update contents of widget
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        holder.bind(getItem(position)!!, clickListener)
     }
 
 
@@ -34,8 +31,12 @@ class MainUIAdapter(/*val clickListener: MainUIAdapterListener*/) :
         RecyclerView.ViewHolder(binding.root) {
 
         //Explicit for the code editing for the bind-able objects of the view
-        fun bind(item: WeightedExerciseData) {
+        fun bind(
+            item: WeightedExerciseData,
+            clickListener: MainUIAdapterListener
+        ) {
             binding.exercise = item
+            binding.clickListener = clickListener
             binding.executePendingBindings() //Optimization technique -> tells data binding to immediately commit all prior data bindings
         }
 
