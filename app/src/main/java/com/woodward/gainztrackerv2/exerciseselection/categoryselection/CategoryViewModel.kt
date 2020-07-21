@@ -1,26 +1,27 @@
 package com.woodward.gainztrackerv2.exerciseselection.categoryselection
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.woodward.gainztrackerv2.database.ExerciseDatabase
 import com.woodward.gainztrackerv2.database.entity.Category
-import com.woodward.gainztrackerv2.repository.ExerciseRepository
+import com.woodward.gainztrackerv2.repositories.CategoryRepository
+import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class CategoryViewModel (application: Application) : AndroidViewModel(application) {
+class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRepository) : ViewModel() {
 
     private val viewModelJob = SupervisorJob()
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val repository : ExerciseRepository
-
-    val listOfCategories : LiveData<List<Category?>>
+    val listOfCategories : LiveData<List<Category?>> = repository.getCategoriesList()
 
     /**
      * Might need to place a mutableList of Live Data for the [listOfCategories] variable
@@ -30,12 +31,6 @@ class CategoryViewModel (application: Application) : AndroidViewModel(applicatio
     private val _navigateToExerciseType= MutableLiveData<Int>()
     val navigateToExerciseType :LiveData<Int>
         get() = _navigateToExerciseType
-
-    init {
-        val dataSource = ExerciseDatabase.getInstance(application)
-        repository = ExerciseRepository.getInstance(dataSource)
-        listOfCategories = repository.getCategoriesList()
-    }
 
     /**
      * Current id being set to identify the exercises to be chosen
@@ -48,14 +43,6 @@ class CategoryViewModel (application: Application) : AndroidViewModel(applicatio
         _navigateToExerciseType.value = null
     }
 
-    /**
-     * Local Database Interactions with repository
-     *
-     * Create a new category
-     */
-    suspend fun insertNewCategory (category: Category) = viewModelScope.launch (Dispatchers.IO) {
-        repository.insertNewCategory(category)
-    }
 
     /**
      * Delete a category from a pre-existing list

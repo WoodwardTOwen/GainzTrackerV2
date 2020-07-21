@@ -1,17 +1,14 @@
 package com.woodward.gainztrackerv2.exercisedetails.weights
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.woodward.gainztrackerv2.database.ExerciseDatabase
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
-import com.woodward.gainztrackerv2.repository.ExerciseRepository
+import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import kotlinx.coroutines.*
 
-//If context is required in the viewmodel -> change to extend androidviewmodel
-class ExerciseDetailsViewModelWeights (application: Application) : ViewModel() {
-
-    //Job and database reference here
-    private val repository: ExerciseRepository
+class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repository: ExerciseRepository) : ViewModel() {
 
     private val viewModelJob = SupervisorJob()
 
@@ -27,10 +24,6 @@ class ExerciseDetailsViewModelWeights (application: Application) : ViewModel() {
     /**
      * Initializer Block for repos and data source
      */
-    init {
-        val dataSource = ExerciseDatabase.getInstance(application)
-        repository = ExerciseRepository.getInstance(dataSource)
-    }
 
     fun setDate(date: String) {
         _currentDate.value = date

@@ -3,6 +3,7 @@ package com.woodward.gainztrackerv2.utils
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.woodward.gainztrackerv2.R
+import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 
 
@@ -57,5 +58,12 @@ fun repsFormatted(view: TextView, item: WeightedExerciseData?) {
 fun rpeFormatted(view: TextView, item: WeightedExerciseData?) {
     item?.let {
         view.setText(item.rpe + R.string.RPE)
+    }
+}
+
+@BindingAdapter("categoriesFormatted")
+fun TextView.categories(item: String?) {
+    item?.let{
+        this.text = if (item.isNullOrEmpty()) "" else "$item"
     }
 }

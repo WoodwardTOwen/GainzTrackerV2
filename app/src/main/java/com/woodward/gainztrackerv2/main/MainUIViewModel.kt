@@ -1,19 +1,17 @@
 package com.woodward.gainztrackerv2.main
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.woodward.gainztrackerv2.database.ExerciseDatabase
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
-import com.woodward.gainztrackerv2.repository.ExerciseRepository
+import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
-class MainUIViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: ExerciseRepository
+class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepository) : ViewModel() {
 
     private val viewModelJob = SupervisorJob()
 
@@ -26,21 +24,15 @@ class MainUIViewModel(application: Application) : AndroidViewModel(application) 
     val currentDate: LiveData<String>
         get() = _currentDate
 
-    private val _navigateToExerciseDetailsWeights = MutableLiveData<String>()
+    /**
+     * Needs changing also -> manual input currently
+     */
+    private val _navigateToExerciseDetailsWeights = MutableLiveData<String>("16-02-20")
     val navigateToExerciseData : LiveData<String>
         get() = _navigateToExerciseDetailsWeights
 
-    /**
-     * Initializer Block for repos and data source
-     */
-    init {
-        val dataSource = ExerciseDatabase.getInstance(application)
-        repository = ExerciseRepository.getInstance(dataSource)
-    }
-
-    private val _ExerciseDataByDate = MutableLiveData<List<WeightedExerciseData>>()
     val exerciseData: LiveData<List<WeightedExerciseData?>> = Transformations.switchMap(currentDate) {
-         currentDate -> repository.getNameAndSetsForDateMainUI(currentDate)
+            currentDate -> repository.getNameAndSetsForDateMainUI(currentDate)
     }
 
     fun setDate(date: String) {

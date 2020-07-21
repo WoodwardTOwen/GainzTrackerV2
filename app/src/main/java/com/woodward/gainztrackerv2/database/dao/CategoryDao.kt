@@ -21,4 +21,14 @@ interface CategoryDao {
 
     @Query("SELECT * FROM Category_Table ORDER BY Name ASC")
     fun getAllCategories(): LiveData<List<Category?>>
+
+    @Query("SELECT * FROM Category_Table ORDER BY Name ASC")
+    fun getAllCategoriesTest(): List<Category?>
+
+    /**
+     * Checks to see if [name] exists with the category table
+     * Alerts the user whether they can add the category or not
+     */
+    @Query("SELECT EXISTS(SELECT * FROM category_table WHERE Name = :name)")
+    suspend fun checkIfCategoryExists(name : String) : Boolean
 }

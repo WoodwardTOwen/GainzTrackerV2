@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseTypePageBinding
 
 class ExerciseTypeFragment : Fragment() {
+
+    private val exerciseTypeViewModel: ExerciseTypeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,9 +22,16 @@ class ExerciseTypeFragment : Fragment() {
         // Inflate the layout for this fragment
 
         val binding: FragmentExerciseTypePageBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_exercise_type_page, container, false)
+            DataBindingUtil.inflate(
+                inflater,
+                R.layout.fragment_exercise_type_page,
+                container,
+                false
+            )
 
-        val arguments = arguments?.let { ExerciseTypePageArgs.fromBundle(it) }
+
+        val application = requireNotNull(this.activity).application
+        val arguments = arguments?.let { ExerciseTypeFragmentArgs.fromBundle(it) }
 
 
         return inflater.inflate(R.layout.fragment_exercise_type_page, container, false)

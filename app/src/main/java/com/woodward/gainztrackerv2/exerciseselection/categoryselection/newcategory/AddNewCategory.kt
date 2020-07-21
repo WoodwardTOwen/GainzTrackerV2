@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.woodward.gainztrackerv2.R
+import com.woodward.gainztrackerv2.databinding.FragmentAddNewCategoryBinding
 
 class AddNewCategory : Fragment() {
 
@@ -14,6 +16,10 @@ class AddNewCategory : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_new_category, container, false)
+        val binding: FragmentAddNewCategoryBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_add_new_category, container, false)
+
+
+        return binding.root
     }
 }

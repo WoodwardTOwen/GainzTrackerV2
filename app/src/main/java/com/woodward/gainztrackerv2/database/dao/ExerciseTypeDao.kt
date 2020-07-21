@@ -23,4 +23,7 @@ interface ExerciseTypeDao{
 
     @Query("SELECT * FROM exercise_type_table WHERE Id=:catId ORDER BY Name ASC")
     fun getExerciseTypeList(catId : Int) : LiveData<List<ExerciseType?>>
+
+    @Query("SELECT * FROM exercise_type_table WHERE Id=:catId ORDER BY Name ASC")
+    fun getExerciseTypeListTest(catId : Int) : List<ExerciseType?>
 }
