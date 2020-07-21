@@ -2,7 +2,6 @@ package com.woodward.gainztrackerv2.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.woodward.gainztrackerv2.database.entity.ExerciseSetPlaceHolderClass
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 
 //NEED RE WRITING -> the null acceptance needs re doing
