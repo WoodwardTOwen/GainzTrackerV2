@@ -7,6 +7,8 @@ import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 //NEED RE WRITING -> the null acceptance needs re doing
 @Dao
 interface WeightedExerciseDao {
+
+    //Test
     @Insert(onConflict = OnConflictStrategy.IGNORE) //ExerciseDataCanConflict
     suspend fun Insert(exercise: WeightedExerciseData?)
 
