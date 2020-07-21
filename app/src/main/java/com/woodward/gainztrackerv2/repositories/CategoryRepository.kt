@@ -28,4 +28,9 @@ class CategoryRepository @Inject constructor(val dao: CategoryDao) {
         Timber.i("Delete Category Called")
         dao.Delete(category)
     }
+
+    suspend fun checkIfNameExists(name : String) : Boolean {
+        Timber.i("Checking if name exists")
+        return dao.checkIfCategoryExists(name)
+    }
 }

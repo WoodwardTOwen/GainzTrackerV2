@@ -27,4 +27,8 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
     suspend fun insertNewCategory (category: Category) = viewModelScope.launch (Dispatchers.IO) {
         repository.insertNewCategory(category)
     }
+
+    suspend fun checkIfNameExists(name: String) : Boolean {
+        return repository.checkIfNameExists(name)
+    }
 }
