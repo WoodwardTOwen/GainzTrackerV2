@@ -11,7 +11,7 @@ import kotlinx.coroutines.*
 
 class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRepository) : ViewModel() {
 
-    private val viewModelJob = Job()
+    private val viewModelJob = SupervisorJob()
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -51,6 +51,10 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
     fun getAllCategories() : LiveData<List<Category?>> {
         return listOfCategories
     }
+
+    /**
+     * Monitors if the TextView should be displayed over in the view
+     */
 
     val noCategoriesAvailable = Transformations.map(listOfCategories) {
         null == it

@@ -19,8 +19,16 @@ class ExerciseTypeRepository @Inject constructor(val dao: ExerciseTypeDao) {
     }
 
     @WorkerThread
+    suspend fun insertExerciseType(exerciseType: ExerciseType) {
+        Timber.i("Insert Exercise Type Called")
+        dao.Insert(exerciseType)
+    }
+
+    @WorkerThread
     suspend fun deleteExerciseType(exerciseType: ExerciseType) {
         Timber.i("Delete ExerciseType Called")
         dao.Delete(exerciseType)
     }
+
+
 }

@@ -17,4 +17,5 @@
     <string name="submit_Cat_button_temp">ClickMe</string>
 
     <string name="CategoryExistsAlert">Category Name Already Exists! Please Enter a New Name</string>
+    <string name="CategoryValid">Please Enter a Valid Input!</string>
 </resources>

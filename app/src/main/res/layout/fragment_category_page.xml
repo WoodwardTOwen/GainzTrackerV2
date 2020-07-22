@@ -4,6 +4,7 @@
     tools:context="com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryFragment">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="categoryViewModel"
             type="com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryViewModel" />
@@ -40,7 +41,7 @@
                     android:gravity="center"
                     android:textColor="#FFFFFF"
                     android:text="@string/noCategoriesAvailable"
-                    android:enabled="@{categoryViewModel.noCategoriesAvailable}" />
+                    app:androidvisibility="@{categoryViewModel.noCategoriesAvailable}" />
 
             </RelativeLayout>
 

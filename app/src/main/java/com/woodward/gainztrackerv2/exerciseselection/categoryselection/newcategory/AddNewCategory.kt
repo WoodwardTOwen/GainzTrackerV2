@@ -25,7 +25,6 @@ class AddNewCategory : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: NewCategoryViewModel by viewModels()
-    private lateinit var editText : EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,12 +37,6 @@ class AddNewCategory : Fragment() {
 
         binding.lifecycleOwner = this
 
-        editText = binding.catNameEditText
-
-        binding.submitNewCatButton.setOnClickListener {
-            viewModel.onSubmit(editText.text.toString())
-        }
-
         viewModel.snackBarEvent.observe(viewLifecycleOwner, Observer {
             if(it == true) {
                 Snackbar.make(
@@ -51,6 +44,16 @@ class AddNewCategory : Fragment() {
                     getString(R.string.CategoryExistsAlert),
                     Snackbar.LENGTH_SHORT).show()
                 viewModel.doneShowingSnackBar()
+            }
+        })
+
+        viewModel.snackBarWrongInput.observe(viewLifecycleOwner, Observer {
+            if(it == true) {
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    getString(R.string.CategoryValid),
+                    Snackbar.LENGTH_SHORT).show()
+                viewModel.doneShowingWrongInput()
             }
         })
 

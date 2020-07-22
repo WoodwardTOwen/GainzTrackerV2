@@ -22,10 +22,14 @@
             android:id="@+id/action_mainUI_to_exerciseDetails"
             app:destination="@id/exerciseDetails"
             app:popUpTo="@id/mainUI"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_right" />
         <action
             android:id="@+id/action_mainUI_to_categoryPage"
-            app:destination="@id/categoryPage" />
+            app:destination="@id/categoryPage"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/categoryPage"
@@ -34,7 +38,9 @@
         tools:layout="@layout/fragment_category_page" >
         <action
             android:id="@+id/action_categoryPage_to_addNewCategory"
-            app:destination="@id/addNewCategory" />
+            app:destination="@id/addNewCategory"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_right" />
         <action
             android:id="@+id/action_categoryPage_to_exerciseTypePage"
             app:destination="@id/exerciseTypePage" />
