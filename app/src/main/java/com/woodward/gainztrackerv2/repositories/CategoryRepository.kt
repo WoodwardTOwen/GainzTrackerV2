@@ -8,7 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CategoryRepository @Inject constructor(val dao: CategoryDao) {
 
 
@@ -29,7 +31,7 @@ class CategoryRepository @Inject constructor(val dao: CategoryDao) {
         dao.Delete(category)
     }
 
-    suspend fun checkIfNameExists(name : String) : Boolean {
+    suspend fun checkIfNameExists(name : String?) : Boolean {
         Timber.i("Checking if name exists")
         return dao.checkIfCategoryExists(name)
     }

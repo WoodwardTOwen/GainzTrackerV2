@@ -14,4 +14,7 @@
     //Categories
     <string name="noCategoriesAvailable">No Categories Available</string>
     <string name="addCategory">Add Category</string>
+    <string name="submit_Cat_button_temp">ClickMe</string>
+
+    <string name="CategoryExistsAlert">Category Name Already Exists! Please Enter a New Name</string>
 </resources>

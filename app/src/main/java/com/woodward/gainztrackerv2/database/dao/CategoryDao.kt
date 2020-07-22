@@ -30,5 +30,5 @@ interface CategoryDao {
      * Alerts the user whether they can add the category or not
      */
     @Query("SELECT EXISTS(SELECT * FROM category_table WHERE Name = :name)")
-    suspend fun checkIfCategoryExists(name : String) : Boolean
+    suspend fun checkIfCategoryExists(name : String?) : Boolean
 }

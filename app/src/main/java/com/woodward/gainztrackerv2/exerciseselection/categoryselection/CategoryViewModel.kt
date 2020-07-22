@@ -2,26 +2,20 @@ package com.woodward.gainztrackerv2.exerciseselection.categoryselection
 
 import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.woodward.gainztrackerv2.database.ExerciseDatabase
 import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.repositories.CategoryRepository
 import com.woodward.gainztrackerv2.repositories.ExerciseRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRepository) : ViewModel() {
 
-    private val viewModelJob = SupervisorJob()
+    private val viewModelJob = Job()
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    val listOfCategories : LiveData<List<Category?>> = repository.getCategoriesList()
+    val listOfCategories = repository.getCategoriesList()
 
     /**
      * Might need to place a mutableList of Live Data for the [listOfCategories] variable
@@ -56,6 +50,10 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
      */
     fun getAllCategories() : LiveData<List<Category?>> {
         return listOfCategories
+    }
+
+    val noCategoriesAvailable = Transformations.map(listOfCategories) {
+        null == it
     }
 
     override fun onCleared() {

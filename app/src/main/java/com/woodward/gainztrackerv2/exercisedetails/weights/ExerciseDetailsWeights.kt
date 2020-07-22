@@ -10,7 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseDetailsWeightsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ExerciseDetailsWeights : Fragment() {
 
     private val exerciseDetailsViewModel: ExerciseDetailsViewModelWeights by viewModels()

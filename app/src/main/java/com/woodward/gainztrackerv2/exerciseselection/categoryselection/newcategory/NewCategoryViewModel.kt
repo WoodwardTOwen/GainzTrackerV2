@@ -3,6 +3,8 @@ package com.woodward.gainztrackerv2.exerciseselection.categoryselection.newcateg
 import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.woodward.gainztrackerv2.database.ExerciseDatabase
 import com.woodward.gainztrackerv2.database.entity.Category
@@ -19,6 +21,14 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    private val _transactionCompleted= MutableLiveData<Boolean>()
+    val transactionCompleted : LiveData<Boolean>
+        get() = _transactionCompleted
+
+    private val _snackBarEvent = MutableLiveData<Boolean?>()
+    val snackBarEvent : LiveData<Boolean?>
+        get() = _snackBarEvent
+
     /**
      * Local Database Interactions with repository
      *
@@ -28,7 +38,30 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
         repository.insertNewCategory(category)
     }
 
-    suspend fun checkIfNameExists(name: String) : Boolean {
+    private suspend fun checkIfNameExists(name: String?) : Boolean {
         return repository.checkIfNameExists(name)
+    }
+
+    fun onSubmit(name: String) {
+        viewModelScope.launch {
+
+            if(checkIfNameExists(name)) {
+                _snackBarEvent.value = true
+            }
+            else {
+                val newCategory = Category()
+                newCategory.categoryName = name
+
+                insertNewCategory(newCategory)
+            }
+        }
+    }
+
+    fun completedTransaction() {
+        _transactionCompleted.value = true
+    }
+
+    fun doneShowingSnackBar() {
+        _snackBarEvent.value = null
     }
 }

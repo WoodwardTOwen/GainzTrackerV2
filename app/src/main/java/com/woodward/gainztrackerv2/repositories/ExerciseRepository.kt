@@ -7,9 +7,10 @@ import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
 
-//Object to declare it as a singleton
+@Singleton
 class ExerciseRepository @Inject constructor(val dao: WeightedExerciseDao) {
 
     /**

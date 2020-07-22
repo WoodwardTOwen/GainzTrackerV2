@@ -10,10 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentCategoryPageBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoryFragment : Fragment() {
 
-    private val categoryViewModel : CategoryViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,14 +28,11 @@ class CategoryFragment : Fragment() {
 
         binding.categoryViewModel = categoryViewModel
 
-        val adapter = CategoryAdapter(CategoryAdapterListener {
-                catID ->
+        val adapter = CategoryAdapter(CategoryAdapterListener { catID ->
             categoryViewModel.onCategorySelected(catID)
         })
 
         binding.categoryRecyclerView.adapter = adapter
-
-        binding.lifecycleOwner = this
 
         categoryViewModel.listOfCategories.observe(viewLifecycleOwner, Observer { categories ->
             categories?.let {
@@ -41,8 +40,12 @@ class CategoryFragment : Fragment() {
             }
         })
 
+        binding.lifecycleOwner = this
+
         categoryViewModel.navigateToExerciseType.observe(viewLifecycleOwner, Observer { cat ->
-            cat?.let { this.findNavController().navigate(CategoryFragmentDirections.actionCategoryPageToExerciseTypePage(cat))
+            cat?.let {
+                this.findNavController()
+                    .navigate(CategoryFragmentDirections.actionCategoryPageToExerciseTypePage(cat))
                 categoryViewModel.onCategoryToExerciseTypeNavigated()
             }
         })

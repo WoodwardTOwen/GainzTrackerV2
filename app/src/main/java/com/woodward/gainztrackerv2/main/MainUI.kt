@@ -12,7 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentMainUIBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainUI : Fragment() {
 
     private val mainUIViewModel : MainUIViewModel by viewModels()

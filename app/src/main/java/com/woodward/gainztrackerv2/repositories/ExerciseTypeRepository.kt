@@ -7,7 +7,9 @@ import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ExerciseTypeRepository @Inject constructor(val dao: ExerciseTypeDao) {
 
     @WorkerThread
