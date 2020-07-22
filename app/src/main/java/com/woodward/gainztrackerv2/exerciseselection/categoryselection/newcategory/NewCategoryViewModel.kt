@@ -51,14 +51,14 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
             else {
                 val newCategory = Category()
                 newCategory.categoryName = name
-
                 insertNewCategory(newCategory)
+                _transactionCompleted.value = true
             }
         }
     }
 
     fun completedTransaction() {
-        _transactionCompleted.value = true
+        _transactionCompleted.value = null
     }
 
     fun doneShowingSnackBar() {

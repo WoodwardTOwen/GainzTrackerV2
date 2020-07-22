@@ -13,8 +13,6 @@ import javax.inject.Singleton
 @Singleton
 class CategoryRepository @Inject constructor(val dao: CategoryDao) {
 
-
-    @WorkerThread
     fun getCategoriesList() : LiveData<List<Category?>> {
         Timber.i("Get Categories Called")
         return dao.getAllCategories()

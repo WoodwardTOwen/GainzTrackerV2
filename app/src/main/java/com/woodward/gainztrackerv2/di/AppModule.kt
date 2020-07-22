@@ -31,7 +31,7 @@ object AppModule {
         app,
         ExerciseDatabase::class.java,
         ROOM_DATABASE_NAME
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
 
     @Singleton

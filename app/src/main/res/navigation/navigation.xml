@@ -43,7 +43,13 @@
         android:id="@+id/addNewCategory"
         android:name="com.woodward.gainztrackerv2.exerciseselection.categoryselection.newcategory.AddNewCategory"
         android:label="fragment_add_new_category"
-        tools:layout="@layout/fragment_add_new_category" />
+        tools:layout="@layout/fragment_add_new_category" >
+        <action
+            android:id="@+id/addnewcategory_return_to_category_success"
+            app:destination="@id/categoryPage"
+            app:popUpTo="@id/categoryPage"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/exerciseTypePage"
         android:name="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.ExerciseTypeFragment"
