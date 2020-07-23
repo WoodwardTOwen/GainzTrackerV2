@@ -9,11 +9,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.woodward.gainztrackerv2.R
+import com.woodward.gainztrackerv2.databinding.FragmentAddNewCategoryBinding
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseTypePageBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ExerciseTypeFragment : Fragment() {
+
+    private var _binding: FragmentExerciseTypePageBinding? = null
+    private val binding get() = _binding!!
 
     private val exerciseTypeViewModel: ExerciseTypeViewModel by viewModels()
 
@@ -21,21 +25,12 @@ class ExerciseTypeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
-        val binding: FragmentExerciseTypePageBinding =
-            DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_exercise_type_page,
-                container,
-                false
-            )
+        _binding = FragmentExerciseTypePageBinding.inflate(inflater, container, false)
 
-
-        val application = requireNotNull(this.activity).application
         val arguments = arguments?.let { ExerciseTypeFragmentArgs.fromBundle(it) }
 
 
-        return inflater.inflate(R.layout.fragment_exercise_type_page, container, false)
+        return binding.root
     }
 }

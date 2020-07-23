@@ -18,4 +18,5 @@
 
     <string name="CategoryExistsAlert">Category Name Already Exists! Please Enter a New Name</string>
     <string name="CategoryValid">Please Enter a Valid Input!</string>
+    <string name="NoExerciseTypes">No Exercise Types Available for Selected Category</string>
 </resources>

@@ -30,5 +30,10 @@ class ExerciseTypeRepository @Inject constructor(val dao: ExerciseTypeDao) {
         dao.Delete(exerciseType)
     }
 
+    @WorkerThread
+    suspend fun checkIfExerciseTypeExists(name: String?, catID: Int) : Boolean{
+        return dao.checkIfExerciseTypeExists(name, catID)
+    }
+
 
 }

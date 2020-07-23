@@ -1,4 +1,4 @@
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -23,6 +23,7 @@
                 android:id="@+id/exercise_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:background="#35373b" />
 
             <TextView
@@ -30,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/noCategoriesAvailable"
+                android:text="@string/NoExerciseTypes"
                 android:visibility="gone" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

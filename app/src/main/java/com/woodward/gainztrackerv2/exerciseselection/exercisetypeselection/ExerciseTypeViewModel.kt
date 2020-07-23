@@ -23,11 +23,13 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     private val _catID = MutableLiveData<Int>()
+    val catID : LiveData<Int>
+        get() = _catID
 
     /**
      * NEEDS CHANGING
      */
-    val exerciseTypeList : LiveData<List<ExerciseType?>> = repository.getExerciseTypeList(_catID.value!!)
+    val exerciseTypeList : LiveData<List<ExerciseType?>> = repository.getExerciseTypeList(catID.value!!)
 
 
     private val _navigateToExerciseDetails = MutableLiveData<Boolean>()
@@ -46,6 +48,14 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
 
     fun doneNavigating() {
         _navigateToExerciseDetails.value = null
+    }
+
+    fun setCatID (id: Int) {
+        _catID.value = id
+    }
+
+    fun resetCatID(id: Int) {
+        _catID.value = null
     }
 
     override fun onCleared() {

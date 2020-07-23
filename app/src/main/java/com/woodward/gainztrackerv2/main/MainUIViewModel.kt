@@ -25,7 +25,7 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
         get() = _currentDate
 
     /**
-     * Needs changing also -> manual input currently
+     * Needs changing also -> manual input currently -> only used for acceptance testing
      */
     private val _navigateToExerciseDetailsWeights = MutableLiveData<String>("16-02-20")
     val navigateToExerciseData : LiveData<String>

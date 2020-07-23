@@ -75,6 +75,9 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
                     _snackBarEvent.value = true
                 }
                 else -> {
+                    /**
+                     * Might be able to make this more concise code...
+                     */
                     val newCategory = Category()
                     newCategory.categoryName = name
                     insertNewCategory(newCategory)
@@ -94,5 +97,9 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
 
     fun doneShowingWrongInput() {
         _snackBarWrongInput.value = null
+    }
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }
