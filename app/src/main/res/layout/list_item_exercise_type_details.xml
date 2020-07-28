@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="exerciseType"
+            type="com.woodward.gainztrackerv2.database.entity.ExerciseType" />
+
+        <variable
+            name="clickListener"
+            type="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.ExerciseTypeAdapterListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp">
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_cardView_exerciseType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#cccccc"
+            android:padding="8dp"
+            android:onClick="@{() -> clickListener.onClick(exerciseType)}"
+            >
+
+            <TextView
+                android:id="@+id/recyclerViewExerciseTypeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#000000"
+                app:exerciseTypesFormatted="@{exerciseType.exerciseTypeName}"
+                tools:text="ExerciseTypeHere"
+                />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

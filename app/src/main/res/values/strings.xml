@@ -16,6 +16,7 @@
     <string name="noCategoriesAvailable">No Categories Available</string>
     <string name="submit_Cat_button_temp">ClickMe</string>
     <string name="Deleted_Category">Deleted Category</string>
+    <string name="SelectedCategory">Category that was Selected: </string>
 
     <string name="CategoryExistsAlert">Category Name Already Exists! Please Enter a New Name</string>
     <string name="InvalidInput">Please Enter a Valid Input!</string>
@@ -23,4 +24,5 @@
 
     //Exercises
     <string name="ExerciseTypeAlreadyExists">ExerciseType Already Exists for this Category! Please Enter a New Name</string>
+    <string name="isCardio">Is the Exercise Cardio Based?</string>
 </resources>

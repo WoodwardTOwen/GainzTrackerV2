@@ -1,15 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="viewModel"
             type="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.newexercisetype.NewExerciseTypeViewModel" />
+
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/category_title_add_new_exercise_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            app:exerciseTypeCategoryTitle="@{viewModel.storedCategoryName}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.148"
+            tools:text="CATEGORY HERE" />
+
+        <EditText
+            android:id="@+id/editTextAddNewExerciseType"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/category_title_add_new_exercise_type"
+            app:layout_constraintStart_toStartOf="@+id/category_title_add_new_exercise_type"
+            app:layout_constraintTop_toBottomOf="@+id/category_title_add_new_exercise_type"
+            app:layout_constraintVertical_bias="0.112" />
+
+        <Switch
+            android:id="@+id/is_cardio_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/isCardio"
+            android:checked="@{viewModel.cardio}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/editTextAddNewExerciseType"
+            app:layout_constraintHorizontal_bias="0.483"
+            app:layout_constraintStart_toStartOf="@+id/editTextAddNewExerciseType"
+            app:layout_constraintTop_toBottomOf="@+id/editTextAddNewExerciseType"
+            app:layout_constraintVertical_bias="0.297" />
+
+        <Button
+            android:id="@+id/on_Submit_New_exercise_Type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onSubmit(editTextAddNewExerciseType.getText().toString())}"
+            android:text="@string/submit_Cat_button_temp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/is_cardio_switch"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="@+id/is_cardio_switch"
+            app:layout_constraintTop_toBottomOf="@+id/is_cardio_switch"
+            app:layout_constraintVertical_bias="0.353" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

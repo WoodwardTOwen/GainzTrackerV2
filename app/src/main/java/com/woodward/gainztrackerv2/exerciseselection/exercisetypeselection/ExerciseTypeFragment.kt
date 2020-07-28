@@ -2,11 +2,13 @@ package com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.woodward.gainztrackerv2.R
+import com.woodward.gainztrackerv2.databinding.FragmentCategoryPageBinding
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseTypePageBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +30,7 @@ class ExerciseTypeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.lifecycleOwner = this.viewLifecycleOwner
+        exerciseTypeViewModel.setCatID(args.categoryID)
         setUpAdapter()
     }
 
@@ -35,8 +38,6 @@ class ExerciseTypeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        exerciseTypeViewModel.setCatID(args.categoryID)
 
         _binding = FragmentExerciseTypePageBinding.inflate(inflater, container, false).apply {
             viewModel = exerciseTypeViewModel
@@ -47,7 +48,11 @@ class ExerciseTypeFragment : Fragment() {
     }
 
     fun setUpAdapter() {
-
+        adapter = ExerciseTypeAdapter(ExerciseTypeAdapterListener { exerciseID ->
+            //exerciseTypeViewModel.onCategorySelected(catID)
+            Toast.makeText(context, "{exerciseID}", Toast.LENGTH_SHORT).show()
+        })
+        binding.exerciseRecyclerView.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -63,5 +68,10 @@ class ExerciseTypeFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

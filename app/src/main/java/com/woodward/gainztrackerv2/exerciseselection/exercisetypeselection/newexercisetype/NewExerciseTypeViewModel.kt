@@ -20,29 +20,54 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val _isCardio = MutableLiveData<Boolean>()
-    val isCardio: LiveData<Boolean>
-        get() = _isCardio
+    /**
+     * Manages whether the switch was turned to a cardiovascular format or not
+     */
 
+
+    private val _cardio = MutableLiveData<Boolean>()
+    val cardio: LiveData<Boolean>
+        get() = _cardio
+
+    /**
+     * Stores the category ID -> used for the FK for creating the new exerciseType
+     */
     private val _storedCatID = MutableLiveData<Int>()
     val storedCatID: LiveData<Int>
         get() = _storedCatID
 
+    /**
+     * Used for display in the title for the Add New Exercise Type section
+     */
+    private val _storedCategoryName = MutableLiveData<String>()
+    val storedCategoryName: LiveData<String>
+        get() = _storedCategoryName
+
+    /**
+     * Alerts the fragment transaction as complete
+     */
+
     private val _transactionCompleted = MutableLiveData<Boolean>()
-    val transCompleted : LiveData<Boolean>
+    val transCompleted: LiveData<Boolean>
         get() = _transactionCompleted
 
+    /**
+     * Manages the SnackBar Messages that are shown to the user
+     */
+
     private val _snackBarNullOrBlank = MutableLiveData<Boolean>()
-    val snackBarNullOrBlank : LiveData<Boolean>
+    val snackBarNullOrBlank: LiveData<Boolean>
         get() = _snackBarNullOrBlank
 
     private val _snackBarAlreadyExists = MutableLiveData<Boolean>()
-    val snackBarAlreadyExists : LiveData<Boolean>
+    val snackBarAlreadyExists: LiveData<Boolean>
         get() = _snackBarAlreadyExists
 
-    private suspend fun insertNewExerciseType(exerciseType: ExerciseType) = repository.insertExerciseType(exerciseType)
+    private suspend fun insertNewExerciseType(exerciseType: ExerciseType) =
+        repository.insertExerciseType(exerciseType)
 
-    private suspend fun checkIfNameExists(name: String?, catID: Int) = repository.checkIfExerciseTypeExists(name, catID)
+    private suspend fun checkIfNameExists(name: String?, catID: Int) =
+        repository.checkIfExerciseTypeExists(name, catID)
 
     /**
      *
@@ -52,7 +77,7 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
 
     fun onSubmit(name: String) {
 
-        viewModelScope.launch (Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
 
             when {
                 isNullOrWhiteSpace(name) -> {
@@ -65,19 +90,23 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
                     val newExerciseType = ExerciseType(
                         exerciseTypeName = name,
                         categoryID = storedCatID.value!!,
-                        isCardio = isCardio.value!!
+                        isCardio = cardio.value!!
                     )
                     insertNewExerciseType(newExerciseType)
                     _transactionCompleted.value = true
-                    resetCatID()
+                    reset()
                 }
             }
         }
+    }
 
-
-        /**
-         * Once successfully submitted, need to reset the catID that has been passed over
-         */
+    /**
+     * Resets everything once transaction is complete
+     */
+    private fun reset() {
+        resetCatID()
+        resetCategoryName()
+        resetCardio()
     }
 
     /**
@@ -95,11 +124,11 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
      * Control whether the exercise is a cardiovascular exercise or not
      */
     fun setCardio(cardio: Boolean) {
-        _isCardio.value = cardio
+        _cardio.value = cardio
     }
 
     fun resetCardio() {
-        _isCardio.value = null
+        _cardio.value = null
     }
 
     /**
@@ -116,6 +145,14 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
 
     fun doneShowingAlreadyExistsSnackBar() {
         _snackBarAlreadyExists.value = null
+    }
+
+    fun setCategoryName(name: String) {
+        _storedCategoryName.value = name
+    }
+
+    fun resetCategoryName() {
+        _storedCategoryName.value = null
     }
 
 

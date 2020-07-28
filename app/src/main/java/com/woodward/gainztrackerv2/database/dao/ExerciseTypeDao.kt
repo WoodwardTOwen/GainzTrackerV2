@@ -29,4 +29,10 @@ interface ExerciseTypeDao{
 
     @Query("SELECT EXISTS(SELECT * FROM exercise_type_table WHERE Name = :name AND Category_ID_FK = :catId)")
     suspend fun checkIfExerciseTypeExists(name : String?, catId: Int) : Boolean
+
+    /**
+     * Finding what the exerciseType will be assigned to what category -> For user understanding
+     */
+    @Query("SELECT Name FROM category_table WHERE Category_ID = :catID")
+    suspend fun getCatName(catID : Int) : String
 }

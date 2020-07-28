@@ -15,16 +15,26 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ExerciseDetailsWeights : Fragment() {
 
+    private var _binding : FragmentExerciseDetailsWeightsBinding? = null
+    private val binding get() = _binding!!
+
     private val exerciseDetailsViewModel: ExerciseDetailsViewModelWeights by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding: FragmentExerciseDetailsWeightsBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_exercise_details_weights, container, false)
-        //Assign Binding variable to have communication with the ViewModel
-        binding.viewModel = exerciseDetailsViewModel
-        //Ensuring the binding has the lifecycle authorisation so LiveData can operate correctly
-        binding.lifecycleOwner = this
+        _binding = FragmentExerciseDetailsWeightsBinding.inflate(inflater, container, false).apply {
+            //Assign Binding variable to have communication with the ViewModel
+            viewModel = exerciseDetailsViewModel
+        }
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        binding.lifecycleOwner = this.viewLifecycleOwner
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
