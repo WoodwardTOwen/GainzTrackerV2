@@ -64,5 +64,12 @@
         <argument
             android:name="CategoryID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_exerciseTypePage_to_addNewExerciseType"
+            app:destination="@id/addNewExerciseType" />
     </fragment>
+    <fragment
+        android:id="@+id/addNewExerciseType"
+        android:name="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.newexercisetype.AddNewExerciseType"
+        android:label="AddNewExerciseType" />
 </navigation>

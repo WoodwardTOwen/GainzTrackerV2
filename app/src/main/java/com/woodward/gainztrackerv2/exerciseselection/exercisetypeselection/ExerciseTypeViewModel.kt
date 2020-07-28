@@ -2,10 +2,7 @@ package com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection
 
 import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.woodward.gainztrackerv2.database.ExerciseDatabase
 import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
@@ -29,7 +26,9 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
     /**
      * NEEDS CHANGING
      */
-    val exerciseTypeList : LiveData<List<ExerciseType?>> = repository.getExerciseTypeList(catID.value!!)
+    val exerciseTypeList : LiveData<List<ExerciseType?>> = Transformations.switchMap(catID) {
+        currentCatID -> repository.getExerciseTypeList(currentCatID)
+    }
 
 
     private val _navigateToExerciseDetails = MutableLiveData<Boolean>()

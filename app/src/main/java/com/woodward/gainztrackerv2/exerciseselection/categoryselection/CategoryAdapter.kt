@@ -24,6 +24,10 @@ class CategoryAdapter(val clickListener: CategoryAdapterListener) :
         holder.bind(getItem(position)!!, clickListener)
     }
 
+    fun getCategoryPosition(position: Int) : Category {
+        return getItem(position)
+    }
+
     class ViewHolder private constructor(val binding: ListItemCategoryDetailsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

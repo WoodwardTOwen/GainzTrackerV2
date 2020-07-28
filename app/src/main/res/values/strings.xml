@@ -10,13 +10,17 @@
     <string name="Reps">Reps</string>
     <string name="RPE">RPE</string>
 
+    <string name="addNewItem">Add New Item</string>
 
     //Categories
     <string name="noCategoriesAvailable">No Categories Available</string>
-    <string name="addCategory">Add Category</string>
     <string name="submit_Cat_button_temp">ClickMe</string>
+    <string name="Deleted_Category">Deleted Category</string>
 
     <string name="CategoryExistsAlert">Category Name Already Exists! Please Enter a New Name</string>
-    <string name="CategoryValid">Please Enter a Valid Input!</string>
+    <string name="InvalidInput">Please Enter a Valid Input!</string>
     <string name="NoExerciseTypes">No Exercise Types Available for Selected Category</string>
+
+    //Exercises
+    <string name="ExerciseTypeAlreadyExists">ExerciseType Already Exists for this Category! Please Enter a New Name</string>
 </resources>

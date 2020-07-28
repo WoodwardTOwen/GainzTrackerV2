@@ -37,11 +37,17 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
         _navigateToExerciseType.value = null
     }
 
+    fun onDelete(category: Category) {
+        viewModelScope.launch (Dispatchers.IO) {
+            deleteCategory(category)
+        }
+    }
+
 
     /**
      * Delete a category from a pre-existing list
      */
-    suspend fun deleteCategory(category: Category) = viewModelScope.launch (Dispatchers.IO) {
+    suspend fun deleteCategory(category: Category) {
         repository.deleteCategory(category)
     }
 
@@ -59,6 +65,7 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
     val noCategoriesAvailable = Transformations.map(listOfCategories) {
         null == it
     }
+
 
     override fun onCleared() {
         super.onCleared()

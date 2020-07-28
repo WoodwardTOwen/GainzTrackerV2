@@ -40,14 +40,9 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
     val snackBarAlreadyExists : LiveData<Boolean>
         get() = _snackBarAlreadyExists
 
-    suspend fun insertNewExerciseType(exerciseType: ExerciseType) =
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertExerciseType(exerciseType)
-        }
+    private suspend fun insertNewExerciseType(exerciseType: ExerciseType) = repository.insertExerciseType(exerciseType)
 
-    private suspend fun checkIfNameExists(name: String?, catID: Int): Boolean {
-        return repository.checkIfExerciseTypeExists(name, catID)
-    }
+    private suspend fun checkIfNameExists(name: String?, catID: Int) = repository.checkIfExerciseTypeExists(name, catID)
 
     /**
      *
@@ -57,14 +52,14 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
 
     fun onSubmit(name: String) {
 
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO) {
 
             when {
                 isNullOrWhiteSpace(name) -> {
-                    //_snackBarWrongInput.value = true
+                    _snackBarNullOrBlank.value = true
                 }
                 checkIfNameExists(name, storedCatID.value!!) -> {
-                    //_snackBarEvent.value = true
+                    _snackBarAlreadyExists.value = true
                 }
                 else -> {
                     val newExerciseType = ExerciseType(
@@ -74,6 +69,7 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
                     )
                     insertNewExerciseType(newExerciseType)
                     _transactionCompleted.value = true
+                    resetCatID()
                 }
             }
         }
@@ -109,11 +105,18 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
     /**
      * SnackBar control for Null and Blank Inputs
      */
+    fun doneShowingNullorBlankSnackBar() {
+        _snackBarNullOrBlank.value = null
+    }
 
 
     /**
      * SnackBar control for already existing names in the entity table
      */
+
+    fun doneShowingAlreadyExistsSnackBar() {
+        _snackBarAlreadyExists.value = null
+    }
 
 
     override fun onCleared() {
