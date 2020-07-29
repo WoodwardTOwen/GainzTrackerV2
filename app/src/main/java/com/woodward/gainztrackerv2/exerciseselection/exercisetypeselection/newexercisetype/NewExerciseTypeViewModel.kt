@@ -1,5 +1,6 @@
 package com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.newexercisetype
 
+import androidx.databinding.Bindable
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,8 +25,7 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
      * Manages whether the switch was turned to a cardiovascular format or not
      */
 
-
-    private val _cardio = MutableLiveData<Boolean>()
+    private val _cardio = MutableLiveData<Boolean>(false)
     val cardio: LiveData<Boolean>
         get() = _cardio
 
@@ -68,6 +68,18 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
 
     private suspend fun checkIfNameExists(name: String?, catID: Int) =
         repository.checkIfExerciseTypeExists(name, catID)
+
+    private suspend fun getNameForCategory(id: Int) = repository.getCategoryNameByID(id)
+
+
+    /**
+     * Runs on the main thread -> compiler doesn't allow setCategory to be ran on a background thread
+     */
+    fun getNameForID (id : Int) {
+        viewModelScope.launch {
+            setCategoryName(getNameForCategory(id))
+        }
+    }
 
     /**
      *

@@ -35,5 +35,10 @@ class ExerciseTypeRepository @Inject constructor(val dao: ExerciseTypeDao) {
         return dao.checkIfExerciseTypeExists(name, catID)
     }
 
+    @WorkerThread
+    suspend fun getCategoryNameByID(id: Int) : String {
+        return dao.getCatName(id)
+    }
+
 
 }

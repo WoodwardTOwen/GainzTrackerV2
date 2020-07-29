@@ -71,5 +71,9 @@
     <fragment
         android:id="@+id/addNewExerciseType"
         android:name="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.newexercisetype.AddNewExerciseType"
-        android:label="AddNewExerciseType" />
+        android:label="AddNewExerciseType" >
+        <argument
+            android:name="CategoryID"
+            app:argType="integer" />
+    </fragment>
 </navigation>

@@ -30,6 +30,10 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
         currentCatID -> repository.getExerciseTypeList(currentCatID)
     }
 
+    private val _navigateToAddNewExerciseType= MutableLiveData<Int>()
+    val navigateToAddNewExerciseType :LiveData<Int>
+        get() = _navigateToAddNewExerciseType
+
 
     private val _navigateToExerciseDetails = MutableLiveData<Boolean>()
     val navigateToExerciseDetails: LiveData<Boolean>

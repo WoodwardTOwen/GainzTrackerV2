@@ -50,7 +50,7 @@ class ExerciseTypeFragment : Fragment() {
     fun setUpAdapter() {
         adapter = ExerciseTypeAdapter(ExerciseTypeAdapterListener { exerciseID ->
             //exerciseTypeViewModel.onCategorySelected(catID)
-            Toast.makeText(context, "{exerciseID}", Toast.LENGTH_SHORT).show()
+            exerciseTypeViewModel.setCatID(exerciseID)
         })
         binding.exerciseRecyclerView.adapter = adapter
     }
@@ -63,7 +63,7 @@ class ExerciseTypeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.new_item -> {
-                findNavController().navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToAddNewExerciseType())
+                findNavController().navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToAddNewExerciseType(exerciseTypeViewModel.catID.value!!))
                 true
             }
             else -> super.onOptionsItemSelected(item)
