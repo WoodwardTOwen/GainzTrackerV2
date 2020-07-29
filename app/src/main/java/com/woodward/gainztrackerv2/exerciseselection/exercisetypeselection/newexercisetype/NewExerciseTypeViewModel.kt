@@ -9,10 +9,7 @@ import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
 import com.woodward.gainztrackerv2.repositories.ExerciseTypeRepository
 import com.woodward.gainztrackerv2.utils.isNullOrWhiteSpace
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: ExerciseTypeRepository) :
     ViewModel() {
@@ -63,8 +60,10 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
     val snackBarAlreadyExists: LiveData<Boolean>
         get() = _snackBarAlreadyExists
 
-    private suspend fun insertNewExerciseType(exerciseType: ExerciseType) =
+    private suspend fun insertNewExerciseType(exerciseType: ExerciseType) = viewModelScope.launch (Dispatchers.IO) {
         repository.insertExerciseType(exerciseType)
+    }
+
 
     private suspend fun checkIfNameExists(name: String?, catID: Int) =
         repository.checkIfExerciseTypeExists(name, catID)
@@ -89,7 +88,7 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
 
     fun onSubmit(name: String) {
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
 
             when {
                 isNullOrWhiteSpace(name) -> {
@@ -106,7 +105,6 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
                     )
                     insertNewExerciseType(newExerciseType)
                     _transactionCompleted.value = true
-                    reset()
                 }
             }
         }
@@ -167,6 +165,10 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
         _storedCategoryName.value = null
     }
 
+    fun resetTransactionStatus() {
+        reset()
+        _transactionCompleted.value = null
+    }
 
     override fun onCleared() {
         super.onCleared()

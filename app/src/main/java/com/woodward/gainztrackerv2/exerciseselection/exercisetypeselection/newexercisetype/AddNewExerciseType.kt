@@ -8,11 +8,13 @@ import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentAddNewExerciseTypeBinding
 import com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.ExerciseTypeFragmentArgs
+import com.woodward.gainztrackerv2.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -31,18 +33,29 @@ class AddNewExerciseType : Fragment(R.layout.fragment_add_new_exercise_type){
         binding.lifecycleOwner = this.viewLifecycleOwner
         setUpObservers()
         newExerciseTypeViewModel.setCatID(args.categoryID)
-        //setUpNavigation()
+        setUpNavigation()
         setUpSnackBar()
     }
 
     private fun setUpNavigation() {
-        TODO("Not yet implemented")
+        newExerciseTypeViewModel.transCompleted.observe(viewLifecycleOwner, Observer {
+
+            if(it == true) {
+                findNavController().navigate(AddNewExerciseTypeDirections.actionAddNewExerciseTypeToExerciseTypePage(newExerciseTypeViewModel.storedCatID.value!!))
+                hideKeyboard()
+                //newExerciseTypeViewModel.resetTransactionStatus()
+            }
+        })
     }
 
     fun setUpObservers () {
         newExerciseTypeViewModel.storedCatID.observe(viewLifecycleOwner, Observer {
             newExerciseTypeViewModel.getNameForID(it)
         })
+
+        binding.isCardioSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            newExerciseTypeViewModel.setCardio(isChecked)
+        }
     }
 
     fun setUpSnackBar() {
@@ -54,10 +67,6 @@ class AddNewExerciseType : Fragment(R.layout.fragment_add_new_exercise_type){
                     Snackbar.LENGTH_SHORT).show()
                 newExerciseTypeViewModel.doneShowingNullorBlankSnackBar()
             }
-        })
-
-        binding.isCardioSwitch.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-            newExerciseTypeViewModel.setCardio(isChecked)
         })
 
         newExerciseTypeViewModel.snackBarAlreadyExists.observe(viewLifecycleOwner, Observer {

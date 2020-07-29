@@ -75,5 +75,10 @@
         <argument
             android:name="CategoryID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_addNewExerciseType_to_exerciseTypePage"
+            app:destination="@id/exerciseTypePage"
+            app:popUpTo="@id/exerciseTypePage"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

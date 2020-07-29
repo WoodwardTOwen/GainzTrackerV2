@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.woodward.gainztrackerv2.R
@@ -32,6 +33,7 @@ class ExerciseTypeFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         exerciseTypeViewModel.setCatID(args.categoryID)
         setUpAdapter()
+        setUpObservers()
     }
 
     override fun onCreateView(
@@ -53,6 +55,14 @@ class ExerciseTypeFragment : Fragment() {
             exerciseTypeViewModel.setCatID(exerciseID)
         })
         binding.exerciseRecyclerView.adapter = adapter
+    }
+
+    fun setUpObservers() {
+        exerciseTypeViewModel.exerciseTypeList.observe(viewLifecycleOwner, Observer { exerciseTypes ->
+            exerciseTypes?.let {
+                adapter.submitList(exerciseTypes)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

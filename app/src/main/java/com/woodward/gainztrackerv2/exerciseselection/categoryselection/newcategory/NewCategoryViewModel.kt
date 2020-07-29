@@ -11,10 +11,7 @@ import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.repositories.CategoryRepository
 import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import com.woodward.gainztrackerv2.utils.isNullOrWhiteSpace
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class NewCategoryViewModel @ViewModelInject constructor (val repository: CategoryRepository): ViewModel() {
 
@@ -49,9 +46,8 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
      *
      * Create a new category
      */
-    suspend fun insertNewCategory (category: Category) = viewModelScope.launch (Dispatchers.IO) {
-        repository.insertNewCategory(category)
-    }
+    suspend fun insertNewCategory (category: Category) = repository.insertNewCategory(category)
+
 
     private suspend fun checkIfNameExists(name: String?) : Boolean {
         return repository.checkIfNameExists(name)
@@ -78,9 +74,12 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
                     /**
                      * Might be able to make this more concise code...
                      */
-                    val newCategory = Category()
-                    newCategory.categoryName = name
-                    insertNewCategory(newCategory)
+                    withContext(Dispatchers.IO){
+                        val newCategory = Category()
+                        newCategory.categoryName = name
+                        insertNewCategory(newCategory)
+                    }
+
                     _transactionCompleted.value = true
                 }
             }
