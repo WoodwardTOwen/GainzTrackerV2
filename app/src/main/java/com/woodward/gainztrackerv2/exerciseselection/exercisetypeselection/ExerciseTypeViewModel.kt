@@ -1,17 +1,14 @@
 package com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection
 
-import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.woodward.gainztrackerv2.database.ExerciseDatabase
-import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
-import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import com.woodward.gainztrackerv2.repositories.ExerciseTypeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 
 class ExerciseTypeViewModel @ViewModelInject constructor (val repository: ExerciseTypeRepository) : ViewModel() {
 
@@ -23,21 +20,24 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
     val catID : LiveData<Int>
         get() = _catID
 
+    private val _isCardio = MutableLiveData<Boolean>()
+    val isCardio : LiveData<Boolean>
+        get() = _isCardio
+
     /**
-     * NEEDS CHANGING
+     * Might need to store the date temporarily too
+     *          Do Not Reset it though -> in case the user goes back and forth
      */
-    val exerciseTypeList : LiveData<List<ExerciseType?>> = Transformations.switchMap(catID) {
-        currentCatID -> repository.getExerciseTypeList(currentCatID)
+
+
+    val exerciseTypeList : LiveData<List<ExerciseType>> = Transformations.switchMap(catID) {
+         repository.getExerciseTypeList(catID.value!!)
     }
 
-    private val _navigateToAddNewExerciseType= MutableLiveData<Int>()
-    val navigateToAddNewExerciseType :LiveData<Int>
-        get() = _navigateToAddNewExerciseType
 
-
-    private val _navigateToExerciseDetails = MutableLiveData<Boolean>()
-    val navigateToExerciseDetails: LiveData<Boolean>
-        get() = _navigateToExerciseDetails
+    private val _navigateToWeightExerciseDetails = MutableLiveData<Boolean>()
+    val navigateToWeightExerciseDetails: LiveData<Boolean>
+        get() = _navigateToWeightExerciseDetails
 
     /**
      * May not be needed for this portion of the application
@@ -49,16 +49,28 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
         repository.deleteExerciseType(exerciseType)
     }
 
-    fun doneNavigating() {
-        _navigateToExerciseDetails.value = null
+    fun doneNavigatingToWeightExerciseDetails() {
+        _navigateToWeightExerciseDetails.value = null
+    }
+
+    fun setNavigation(cardio: Boolean) {
+        _navigateToWeightExerciseDetails.value = cardio
     }
 
     fun setCatID (id: Int) {
-        _catID.value = id
+        this._catID.value = id
     }
 
-    fun resetCatID(id: Int) {
-        _catID.value = null
+    fun resetCatID() {
+        this._catID.value = null
+    }
+
+    fun setIsCardio(cardio: Boolean){
+        this._isCardio.value = cardio
+    }
+
+    fun resetCardio() {
+        this._isCardio.value = null
     }
 
     override fun onCleared() {

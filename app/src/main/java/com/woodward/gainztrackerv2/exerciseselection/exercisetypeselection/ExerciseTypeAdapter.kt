@@ -38,8 +38,8 @@ class ExerciseTypeAdapter (val clickListener : ExerciseTypeAdapterListener) : Li
     }
 }
 
-class ExerciseTypeAdapterListener(val clickListener: (exerciseID : Int) -> Unit) {
-    fun onClick(exercise: ExerciseType) = clickListener(exercise.exerciseTypeID)
+class ExerciseTypeAdapterListener(val clickListener: (exerciseType : ExerciseType) -> Unit) {
+    fun onClick(exercise: ExerciseType) = clickListener(exercise)
 }
 
 class ExerciseTypeDiffUtil() : DiffUtil.ItemCallback<ExerciseType>() {

@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class ExerciseTypeRepository @Inject constructor(val dao: ExerciseTypeDao) {
 
     @WorkerThread
-    fun getExerciseTypeList(id: Int) : LiveData<List<ExerciseType?>> {
+    fun getExerciseTypeList(id: Int) : LiveData<List<ExerciseType>> {
         Timber.i("Get Exercise Type List Called")
         return dao.getExerciseTypeList(id)
     }

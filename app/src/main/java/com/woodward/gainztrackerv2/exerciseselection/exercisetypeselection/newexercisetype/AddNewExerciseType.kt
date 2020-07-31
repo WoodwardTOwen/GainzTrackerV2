@@ -24,7 +24,7 @@ class AddNewExerciseType : Fragment(R.layout.fragment_add_new_exercise_type){
     private var _binding : FragmentAddNewExerciseTypeBinding? = null
     private val binding get() = _binding!!
 
-    private val args : ExerciseTypeFragmentArgs by navArgs()
+    private val args : AddNewExerciseTypeArgs by navArgs()
 
     private val newExerciseTypeViewModel : NewExerciseTypeViewModel by viewModels()
 

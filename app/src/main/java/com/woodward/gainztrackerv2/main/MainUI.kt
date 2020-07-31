@@ -20,15 +20,6 @@ class MainUI : Fragment() {
 
     private val mainUIViewModel : MainUIViewModel by viewModels()
 
-    /*private val exerciseDetailsViewModelWeights: ExerciseDetailsViewModelWeights by lazy {
-        val activity = requireNotNull(this.activity) {
-            "You can only access the viewModel after onActivityCreated()"
-        }
-        ViewModelProvider(this, Injection.provideExerciseDetailsViewModelFactory(activity.application)).get(
-            ExerciseDetailsViewModelWeights::class.java
-        )
-    }*/
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

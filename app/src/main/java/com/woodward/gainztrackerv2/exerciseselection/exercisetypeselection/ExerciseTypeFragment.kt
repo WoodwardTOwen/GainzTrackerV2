@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.woodward.gainztrackerv2.R
-import com.woodward.gainztrackerv2.databinding.FragmentCategoryPageBinding
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseTypePageBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +23,7 @@ class ExerciseTypeFragment : Fragment() {
     /**
      * Gets the arguments passed over from the category through navigation args
      */
-    private val args : ExerciseTypeFragmentArgs by navArgs()
+    private val args: ExerciseTypeFragmentArgs by navArgs()
 
     private val exerciseTypeViewModel: ExerciseTypeViewModel by viewModels()
 
@@ -34,6 +33,8 @@ class ExerciseTypeFragment : Fragment() {
         exerciseTypeViewModel.setCatID(args.categoryID)
         setUpAdapter()
         setUpObservers()
+        setUpNavigation()
+
     }
 
     override fun onCreateView(
@@ -49,20 +50,42 @@ class ExerciseTypeFragment : Fragment() {
         return binding.root
     }
 
-    fun setUpAdapter() {
-        adapter = ExerciseTypeAdapter(ExerciseTypeAdapterListener { exerciseID ->
-            //exerciseTypeViewModel.onCategorySelected(catID)
-            exerciseTypeViewModel.setCatID(exerciseID)
+
+    private fun setUpNavigation() {
+        exerciseTypeViewModel.navigateToWeightExerciseDetails.observe(
+            viewLifecycleOwner,
+            Observer { exercise ->
+                exercise?.let {
+                    if (exercise == false) {
+                        this.findNavController()
+                            .navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToExerciseDetails())
+                        exerciseTypeViewModel.doneNavigatingToWeightExerciseDetails()
+                    } else if(exercise == true) {
+                        this.findNavController()
+                            .navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToExerciseDetailsCardio())
+                        exerciseTypeViewModel.doneNavigatingToWeightExerciseDetails()
+                    }
+                }
+            })
+    }
+
+    private fun setUpAdapter() {
+        adapter = ExerciseTypeAdapter(ExerciseTypeAdapterListener { exercise ->
+            exerciseTypeViewModel.setCatID(exercise.exerciseTypeID)
+            exerciseTypeViewModel.setIsCardio(exercise.isCardio)
+            exerciseTypeViewModel.setNavigation(exercise.isCardio)
         })
         binding.exerciseRecyclerView.adapter = adapter
     }
 
-    fun setUpObservers() {
-        exerciseTypeViewModel.exerciseTypeList.observe(viewLifecycleOwner, Observer { exerciseTypes ->
-            exerciseTypes?.let {
-                adapter.submitList(exerciseTypes)
-            }
-        })
+    private fun setUpObservers() {
+        exerciseTypeViewModel.exerciseTypeList.observe(
+            viewLifecycleOwner,
+            Observer { exerciseTypes ->
+                exerciseTypes?.let {
+                    adapter.submitList(exerciseTypes)
+                }
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -73,7 +96,11 @@ class ExerciseTypeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.new_item -> {
-                findNavController().navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToAddNewExerciseType(exerciseTypeViewModel.catID.value!!))
+                findNavController().navigate(
+                    ExerciseTypeFragmentDirections.actionExerciseTypePageToAddNewExerciseType(
+                        exerciseTypeViewModel.catID.value!!
+                    )
+                )
                 true
             }
             else -> super.onOptionsItemSelected(item)

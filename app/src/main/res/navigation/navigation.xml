@@ -11,7 +11,12 @@
         android:name="com.woodward.gainztrackerv2.exercisedetails.weights.ExerciseDetailsWeights"
         android:label="ExerciseDetails"
         tools:layout="@layout/fragment_exercise_details_weights"
-        />
+        >
+        <argument
+            android:name="isCardioArg"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
     <fragment
         android:id="@+id/mainUI"
         android:name="com.woodward.gainztrackerv2.main.MainUI"
@@ -30,6 +35,9 @@
             app:destination="@id/categoryPage"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_mainUI_to_exerciseDetailsCardio"
+            app:destination="@id/exerciseDetailsCardio" />
     </fragment>
     <fragment
         android:id="@+id/categoryPage"
@@ -67,6 +75,12 @@
         <action
             android:id="@+id/action_exerciseTypePage_to_addNewExerciseType"
             app:destination="@id/addNewExerciseType" />
+        <action
+            android:id="@+id/action_exerciseTypePage_to_exerciseDetails"
+            app:destination="@id/exerciseDetails" />
+        <action
+            android:id="@+id/action_exerciseTypePage_to_exerciseDetailsCardio"
+            app:destination="@id/exerciseDetailsCardio" />
     </fragment>
     <fragment
         android:id="@+id/addNewExerciseType"
@@ -80,5 +94,15 @@
             app:destination="@id/exerciseTypePage"
             app:popUpTo="@id/exerciseTypePage"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseDetailsCardio"
+        android:name="com.woodward.gainztrackerv2.exercisedetails.cardio.ExerciseDetailsCardio"
+        android:label="fragment_exercise_details_cardio"
+        tools:layout="@layout/fragment_exercise_details_cardio" >
+        <argument
+            android:name="isCardioArg"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
 </navigation>

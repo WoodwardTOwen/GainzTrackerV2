@@ -50,6 +50,12 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
             repository.deleteWeightExerciseData(weightData)
     }
 
+    suspend fun deleteAllDelete(weightData: List<WeightedExerciseData>) = viewModelScope.launch (Dispatchers.IO){
+        /**
+         * Insert method here -> needs to remove data in query based on date AND exerciseName
+         */
+    }
+
     /**
      * Clears up the jobs so the coroutine wont be stuck in the background if the ViewModel is destroyed
      */

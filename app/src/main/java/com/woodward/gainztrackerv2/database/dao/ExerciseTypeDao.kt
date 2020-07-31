@@ -21,11 +21,11 @@ interface ExerciseTypeDao{
     @Delete
     suspend fun Delete(exerciseType: ExerciseType?)
 
-    @Query("SELECT * FROM exercise_type_table WHERE Id=:catId ORDER BY Name ASC")
-    fun getExerciseTypeList(catId : Int) : LiveData<List<ExerciseType?>>
+    @Query("SELECT * FROM exercise_type_table WHERE Category_ID_FK=:catId ORDER BY Name ASC")
+    fun getExerciseTypeList(catId : Int) : LiveData<List<ExerciseType>>
 
     @Query("SELECT * FROM exercise_type_table WHERE Id=:catId ORDER BY Name ASC")
-    fun getExerciseTypeListTest(catId : Int) : List<ExerciseType?>
+    fun getExerciseTypeListTest(catId : Int) : List<ExerciseType>
 
     @Query("SELECT EXISTS(SELECT * FROM exercise_type_table WHERE Name = :name AND Category_ID_FK = :catId)")
     suspend fun checkIfExerciseTypeExists(name : String?, catId: Int) : Boolean
