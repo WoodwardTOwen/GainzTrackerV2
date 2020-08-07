@@ -4,7 +4,9 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -41,14 +43,14 @@ class MainUI : Fragment() {
         })
 
         mainUIViewModel.currentDate.observe(viewLifecycleOwner, Observer {
+            MainActivity.DataHolder.set_Date(it)
             binding.textViewMainUITitle.text = it
         })
     }
 
     private fun setUpNavigation() {
-
         binding.floatingActionButtonAddExercise.setOnClickListener { view: View ->
-            view.findNavController().navigate(MainUIDirections.actionMainUIToCategoryPage(mainUIViewModel.currentDate.value!!))
+            view.findNavController().navigate(MainUIDirections.actionMainUIToCategoryPage())
         }
     }
 
@@ -97,6 +99,7 @@ class MainUI : Fragment() {
      */
     fun onDateChange(year: Int, month: Int, day: Int) {
         mainUIViewModel.setDate("$day/$month/$year")
+        MainActivity.DataHolder.set_Date(mainUIViewModel.currentDate.value!!)
     }
 
     fun onDisplayDateDialog () {

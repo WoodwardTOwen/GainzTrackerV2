@@ -92,3 +92,11 @@ fun TextView.exerciseTypeCategoryTitle(item: String?) {
     }
 }
 
+
+@BindingAdapter("dateFormattedExerciseDetails")
+fun TextView.exerciseDetailsDate(item: String?) {
+    item?.let{
+        this.text = "${this.context.getString(R.string.Date)} ${item}"
+    }
+}
+

@@ -9,6 +9,7 @@
     <string name="Kg">Kg</string>
     <string name="Reps">Reps</string>
     <string name="RPE">RPE</string>
+    <string name="Date">Date: </string>
 
     <string name="addNewItem">Add New Item</string>
 

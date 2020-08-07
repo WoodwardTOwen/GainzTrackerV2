@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseDetailsWeightsBinding
+import com.woodward.gainztrackerv2.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,17 +22,18 @@ class ExerciseDetailsWeights : Fragment() {
 
     private val exerciseDetailsViewModel: ExerciseDetailsViewModelWeights by viewModels()
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        binding.lifecycleOwner = this.viewLifecycleOwner
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentExerciseDetailsWeightsBinding.inflate(inflater, container, false).apply {
             //Assign Binding variable to have communication with the ViewModel
             viewModel = exerciseDetailsViewModel
         }
+        exerciseDetailsViewModel.setDate(MainActivity.DataHolder.get_Date())
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        binding.lifecycleOwner = this.viewLifecycleOwner
     }
 
     override fun onDestroyView() {

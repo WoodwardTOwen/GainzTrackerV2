@@ -58,7 +58,7 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
         _currentDate.value = date
     }
 
-    fun initialiseDate() : String?{
+    private fun initialiseDate() : String?{
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)

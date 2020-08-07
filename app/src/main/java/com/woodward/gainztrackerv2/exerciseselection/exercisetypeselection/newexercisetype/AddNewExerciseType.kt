@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -13,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentAddNewExerciseTypeBinding
-import com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.ExerciseTypeFragmentArgs
 import com.woodward.gainztrackerv2.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
