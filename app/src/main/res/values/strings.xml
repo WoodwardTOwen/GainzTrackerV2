@@ -25,4 +25,7 @@
     //Exercises
     <string name="ExerciseTypeAlreadyExists">ExerciseType Already Exists for this Category! Please Enter a New Name</string>
     <string name="isCardio">Is the Exercise Cardio Based?</string>
+    <string name="date_time_picker">Date Time Picker</string>
+    <string name="incrementButton">+</string>
+    <string name="decrementButton">-</string>
 </resources>

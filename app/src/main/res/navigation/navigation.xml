@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_categoryPage_to_exerciseTypePage"
             app:destination="@id/exerciseTypePage" />
+        <argument
+            android:name="date"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/addNewCategory"

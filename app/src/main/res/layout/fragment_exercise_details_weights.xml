@@ -8,6 +8,9 @@
             name="viewModel"
             type="com.woodward.gainztrackerv2.exercisedetails.weights.ExerciseDetailsViewModelWeights" />
 
+        <variable
+            name="weightRelatedData"
+            type="com.woodward.gainztrackerv2.database.entity.WeightedExerciseData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2">
+            app:layout_constraintTop_toBottomOf="@+id/incrementWeightBnt">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -29,26 +32,26 @@
         </androidx.core.widget.NestedScrollView>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/decrementWeightBnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="180dp"
             android:layout_marginEnd="64dp"
-            android:text="Button"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
+            android:text="@string/decrementButton"
+            app:layout_constraintEnd_toStartOf="@+id/incrementWeightBnt"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/incrementWeightBnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="180dp"
-            android:text="Button"
+            android:text="@string/incrementButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
             app:layout_constraintTop_toTopOf="parent" />
 
 

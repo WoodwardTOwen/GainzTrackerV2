@@ -2,6 +2,7 @@ package com.woodward.gainztrackerv2.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.woodward.gainztrackerv2.database.dao.CategoryDao
 import com.woodward.gainztrackerv2.database.dao.ExerciseTypeDao
 import com.woodward.gainztrackerv2.database.dao.WeightedExerciseDao
@@ -16,6 +17,7 @@ import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class ExerciseDatabase : RoomDatabase() {
 
     abstract fun WeightedExerciseDao(): WeightedExerciseDao

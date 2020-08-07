@@ -7,6 +7,7 @@ import com.woodward.gainztrackerv2.database.ExerciseDatabase
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import kotlinx.coroutines.*
+import java.util.*
 
 class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repository: ExerciseRepository) : ViewModel() {
 
@@ -17,15 +18,15 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
     /**
      * For the current time in the user application state
      */
-    private val _currentDate = MutableLiveData<String>()
-    val currentDate: LiveData<String>
+    private val _currentDate = MutableLiveData<Date>()
+    val currentDate: LiveData<Date>
         get() = _currentDate
 
     /**
      * Initializer Block for repos and data source
      */
 
-    fun setDate(date: String) {
+    fun setDate(date: Date) {
         _currentDate.value = date
     }
 
@@ -50,10 +51,19 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
             repository.deleteWeightExerciseData(weightData)
     }
 
-    suspend fun deleteAllDelete(weightData: List<WeightedExerciseData>) = viewModelScope.launch (Dispatchers.IO){
-        /**
-         * Insert method here -> needs to remove data in query based on date AND exerciseName
-         */
+    suspend fun deleteAllDelete(name: String, date: String) = viewModelScope.launch (Dispatchers.IO){
+        repository.deleteListOFWeightExerciseData(name, date)
+    }
+
+
+    fun onSubmit(){
+        viewModelScope.launch {
+
+            /**
+             * Remember to switch to I/O thread when inserting data to the db
+             */
+
+        }
     }
 
     /**

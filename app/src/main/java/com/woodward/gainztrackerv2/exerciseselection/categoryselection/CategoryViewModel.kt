@@ -8,6 +8,7 @@ import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.repositories.CategoryRepository
 import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import kotlinx.coroutines.*
+import java.util.*
 
 class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRepository) : ViewModel() {
 
@@ -26,6 +27,10 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
     val navigateToExerciseType :LiveData<Int>
         get() = _navigateToExerciseType
 
+    private val _currentDate = MutableLiveData<Date>()
+    val currentDate : LiveData<Date>
+        get() = _currentDate
+
     /**
      * Current id being set to identify the exercises to be chosen
      */
@@ -41,6 +46,10 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
         viewModelScope.launch (Dispatchers.IO) {
             deleteCategory(category)
         }
+    }
+
+    fun setCurrentDate(date: Date) {
+        _currentDate.value = date
     }
 
 
