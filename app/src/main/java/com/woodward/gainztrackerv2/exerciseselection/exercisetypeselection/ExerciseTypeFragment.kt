@@ -58,11 +58,11 @@ class ExerciseTypeFragment : Fragment() {
                 exercise?.let {
                     if (exercise == false) {
                         this.findNavController()
-                            .navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToExerciseDetails())
+                            .navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToExerciseDetails(exerciseTypeViewModel.exerciseName.value!!))
                         exerciseTypeViewModel.doneNavigatingToWeightExerciseDetails()
                     } else if(exercise == true) {
                         this.findNavController()
-                            .navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToExerciseDetailsCardio())
+                            .navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToExerciseDetailsCardio(exerciseTypeViewModel.exerciseName.value!!))
                         exerciseTypeViewModel.doneNavigatingToWeightExerciseDetails()
                     }
                 }
@@ -71,9 +71,10 @@ class ExerciseTypeFragment : Fragment() {
 
     private fun setUpAdapter() {
         adapter = ExerciseTypeAdapter(ExerciseTypeAdapterListener { exercise ->
-            exerciseTypeViewModel.setCatID(exercise.exerciseTypeID)
+            exerciseTypeViewModel.setExerciseName(exercise.exerciseTypeName)
             exerciseTypeViewModel.setIsCardio(exercise.isCardio)
             exerciseTypeViewModel.setNavigation(exercise.isCardio)
+            val x = exerciseTypeViewModel.exerciseName.value
         })
         binding.exerciseRecyclerView.adapter = adapter
     }

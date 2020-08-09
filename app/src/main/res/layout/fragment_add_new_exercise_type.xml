@@ -33,6 +33,7 @@
             android:id="@+id/editTextAddNewExerciseType"
             android:layout_width="200dp"
             android:layout_height="50dp"
+            android:inputType="textCapWords"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/category_title_add_new_exercise_type"
             app:layout_constraintStart_toStartOf="@+id/category_title_add_new_exercise_type"

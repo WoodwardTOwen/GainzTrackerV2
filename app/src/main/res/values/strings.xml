@@ -29,4 +29,5 @@
     <string name="date_time_picker">Date Time Picker</string>
     <string name="incrementButton">+</string>
     <string name="decrementButton">-</string>
+    <string name="add_new_exercise_data">Add New Exercise Data</string>
 </resources>

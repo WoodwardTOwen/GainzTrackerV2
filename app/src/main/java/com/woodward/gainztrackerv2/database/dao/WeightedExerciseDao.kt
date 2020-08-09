@@ -24,6 +24,21 @@ interface WeightedExerciseDao {
     @Query("UPDATE weight_exercise_data_table SET sets = :pSets WHERE Id in (:idList)")
     suspend fun UpdateSetsExercise(idList: List<Int?>, pSets: Int?)
 
+    /**
+     * Returns current amount of sets value for certain exercise name + date
+     */
+
+    @Query("SELECT sets FROM weight_exercise_data_table WHERE Name = :exerciseName AND date = :date")
+    suspend fun getCurrentAmountOfSets(exerciseName: String?, date: String?) : Int
+
+    /**
+     * Updating all the set values when a new piece of data is added
+     */
+
+    @Query("UPDATE weight_exercise_data_table SET sets = :sets WHERE Name = :exerciseName AND date = :date")
+    suspend fun updateSetsForExercises(sets: Int, exerciseName: String?, date: String?)
+
+
     @Delete
     suspend fun Delete(exercise: WeightedExerciseData?)
 

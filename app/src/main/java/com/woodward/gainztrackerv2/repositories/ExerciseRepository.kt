@@ -6,6 +6,7 @@ import com.woodward.gainztrackerv2.database.dao.WeightedExerciseDao
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import kotlinx.coroutines.*
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -53,5 +54,17 @@ class ExerciseRepository @Inject constructor(val dao: WeightedExerciseDao) {
     fun getNameAndSetsForDateMainUI (date: String) : LiveData<List<WeightedExerciseData?>> {
         Timber.i("Call for Main UI Recycler View -> name and date info")
         return dao.GetNameAndSetsForDate(date)
+    }
+
+    @WorkerThread
+    suspend fun getSetsAmountForNameAndDate(name:String?, date: String?) : Int {
+        Timber.i("Call for Sets Return from Name and Date")
+        return dao.getCurrentAmountOfSets(name, date)
+    }
+
+    @WorkerThread
+    suspend fun updateSetsFromNameAndDate(sets: Int, name: String?, date: String?) {
+        Timber.i("Call for update on the sets of exercise Data")
+        return dao.updateSetsForExercises(sets, name, date)
     }
 }

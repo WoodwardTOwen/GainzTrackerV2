@@ -24,6 +24,10 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
     val isCardio : LiveData<Boolean>
         get() = _isCardio
 
+    private val _exerciseName = MutableLiveData<String>()
+    val exerciseName: LiveData<String>
+        get() = _exerciseName
+
     /**
      * Might need to store the date temporarily too
      *          Do Not Reset it though -> in case the user goes back and forth
@@ -67,6 +71,10 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
 
     fun setIsCardio(cardio: Boolean){
         this._isCardio.value = cardio
+    }
+
+    fun setExerciseName(name: String) {
+        this._exerciseName.value = name
     }
 
     fun resetCardio() {

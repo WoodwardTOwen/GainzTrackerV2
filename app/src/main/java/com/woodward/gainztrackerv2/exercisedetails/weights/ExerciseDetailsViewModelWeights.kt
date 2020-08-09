@@ -16,7 +16,6 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-
     private val _weightEntered = MutableLiveData<Double>(0.0)
     val weightEntered: LiveData<Double>
         get() = _weightEntered
@@ -25,9 +24,17 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
     val repsEntered: LiveData<Int>
         get() = _repsEntered
 
+    private val _exerciseName = MutableLiveData<String>()
+    val exerciseName: LiveData<String>
+        get() = _exerciseName
+
     private val _rpeEntered = MutableLiveData(0)
     val rpeEntered: LiveData<Int>
         get() = _rpeEntered
+
+    private val _isCardio = MutableLiveData<Boolean>()
+    val isCardio: LiveData<Boolean>
+        get() = _isCardio
 
     /**
      * For the current time in the user application state
@@ -56,6 +63,14 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
         TODO("NEEDS CHECKER")
     }
 
+    fun setIsCardio(cardio: Boolean) {
+        _isCardio.value = cardio
+    }
+
+    fun setExerciseName(name: String) {
+        _exerciseName.value = name
+    }
+
     /**
      * Controls Weight Related Buttons
      */
@@ -65,7 +80,9 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
     }
 
     fun decrementWeight() {
-        TODO("NEEDS CHECKER >= 2.5 Problem")
+        if (weightEntered.value!! >= 2.5) {
+            _weightEntered.value = (weightEntered.value)?.minus(2.5)
+        }
     }
 
     /**
@@ -77,7 +94,9 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
     }
 
     fun decrementReps() {
-        TODO("NEEDS CHECKER >= 2.5 Problem")
+        if (repsEntered.value!! >= 1) {
+            _repsEntered.value = (repsEntered.value)?.minus(1)
+        }
     }
 
     /**
@@ -89,7 +108,9 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
     }
 
     fun decrementRPE() {
-        TODO("NEEDS CHECKER >= 2.5 Problem")
+        if (rpeEntered.value!! >= 1) {
+            _rpeEntered.value = (rpeEntered.value)?.minus(1)
+        }
     }
 
 
@@ -130,14 +151,41 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
             repository.deleteListOFWeightExerciseData(name, date)
         }
 
+    private suspend fun getSetsForNameAndDate(name: String, date: String): Int {
+        return repository.getSetsAmountForNameAndDate(name, date)
+    }
+
+    private suspend fun updateSetsForData(sets: Int, name: String, date: String) = viewModelScope.launch (Dispatchers.IO) {
+        repository.updateSetsFromNameAndDate(sets, name, date)
+    }
+
+    /**
+     * Button function for applying the data to the DB
+     */
 
     fun onSubmit() {
         viewModelScope.launch {
 
-            /**
-             * Remember to switch to I/O thread when inserting data to the db
-             */
+            withContext(Dispatchers.IO) {
+                val sets = getSetsForNameAndDate(exerciseName.value!!, currentDate.value!!) + 1
+                insertData(
+                    WeightedExerciseData(
+                        date = exerciseName.value!!,
+                        exerciseName = exerciseName.value!!,
+                        reps = repsEntered.value!!,
+                        rpe = rpeEntered.value!!,
+                        weight = weightEntered.value!!,
+                        sets = sets
+                    )
+                )
+                /**
+                 * May need changing to the list of ID's Instead
+                 */
+                updateSetsForData(sets, exerciseName.value!!, currentDate.value!!)
+            }
 
+
+            TODO("NEEDS CHECKERS BEFORE SUBMITTING")
         }
     }
 

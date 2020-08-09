@@ -19,11 +19,11 @@ class MainActivity : AppCompatActivity() {
      */
     object DataHolder {
         private var Date = ""
-        fun set_Date(s: String) {
+        fun setDate(s: String) {
             Date = s
         }
 
-        fun get_Date(): String {
+        fun getDate(): String {
             return Date
         }
     }

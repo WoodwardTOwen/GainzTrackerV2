@@ -15,6 +15,9 @@
             android:name="isCardioArg"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="ExerciseName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/mainUI"
@@ -103,5 +106,8 @@
             android:name="isCardioArg"
             app:argType="boolean"
             android:defaultValue="true" />
+        <argument
+            android:name="ExerciseName"
+            app:argType="string" />
     </fragment>
 </navigation>
