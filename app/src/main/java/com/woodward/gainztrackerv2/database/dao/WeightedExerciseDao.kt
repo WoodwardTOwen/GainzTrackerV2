@@ -28,7 +28,7 @@ interface WeightedExerciseDao {
      * Returns current amount of sets value for certain exercise name + date
      */
 
-    @Query("SELECT sets FROM weight_exercise_data_table WHERE Name = :exerciseName AND date = :date")
+    @Query("SELECT DISTINCT sets FROM weight_exercise_data_table WHERE Name = :exerciseName AND date = :date")
     suspend fun getCurrentAmountOfSets(exerciseName: String?, date: String?) : Int
 
     /**
@@ -76,13 +76,10 @@ interface WeightedExerciseDao {
 
     /**
      * Gets exercise name and sets based on date
-     * Again -> maybe incorrect format -> Should only get one record
      */
-    @Query("SELECT DISTINCT * FROM weight_exercise_data_table WHERE date = :date")
-    fun GetNameAndSetsForDate(date: String?): LiveData<List<WeightedExerciseData?>>
 
-    /*@Query("SELECT DISTINCT Name, sets FROM weight_exercise_data_table WHERE date = :date")
-    fun GetNameSetsForDatePlaceHolder(date: String?): LiveData<List<ExerciseSetPlaceHolderClass?>>*/
+    @Query("SELECT weight_exercise_data_table.* FROM weight_exercise_data_table WHERE date = :date GROUP BY weight_exercise_data_table.Name")
+    fun GetNameAndSetsForDate(date: String?): LiveData<List<WeightedExerciseData?>>
 
     //Get all exercises that match the current date
     @Query("SELECT * FROM weight_exercise_data_table WHERE date = :date")

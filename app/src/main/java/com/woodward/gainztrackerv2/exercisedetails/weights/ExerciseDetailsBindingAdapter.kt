@@ -6,6 +6,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import com.woodward.gainztrackerv2.R
+import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import timber.log.Timber
 
 @BindingAdapter("text")
@@ -92,4 +94,53 @@ fun getIntFromTextView(editText: TextView): Int? {
         null
     }//catch
 
+}
+
+
+
+/**
+ * For the Exercise Details RecyclerView when viewing the exercise detailing (weights) -> Binding adapter for weight (Kg)
+ */
+
+@BindingAdapter("weightFormatted")
+fun weightFormatted(view: TextView, item: WeightedExerciseData?) {
+    item?.let {
+        view.text = (item.weight + R.string.Kg).toString()
+    }
+}
+
+/**
+ * For the Exercise Details RecyclerView when viewing the exercise detailing (weights) -> Binding adapter for reps
+ */
+
+@BindingAdapter("repsFormatted")
+fun repsFormatted(view: TextView, item: WeightedExerciseData?) {
+    item?.let {
+        view.setText(item.reps + R.string.Reps)
+    }
+}
+
+/**
+ * For the Exercise Details RecyclerView when viewing the exercise detailing (weights) -> Binding adapter for rpe
+ */
+
+@BindingAdapter("rpeFormatted")
+fun rpeFormatted(view: TextView, item: WeightedExerciseData?) {
+    item?.let {
+        view.setText(item.rpe + R.string.RPE)
+    }
+}
+
+@BindingAdapter("categoriesFormatted")
+fun TextView.categories(item: String?) {
+    item?.let {
+        this.text = if (item.isNullOrEmpty()) "" else "$item"
+    }
+}
+
+@BindingAdapter("dateFormattedExerciseDetails")
+fun TextView.exerciseDetailsDate(item: String?) {
+    item?.let{
+        this.text = "${this.context.getString(R.string.Date)} ${item}"
+    }
 }

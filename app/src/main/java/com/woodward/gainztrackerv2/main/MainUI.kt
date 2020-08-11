@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentMainUIBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,8 +23,9 @@ class MainUI : Fragment() {
     private val binding get() = _binding!!
 
     private val mainUIViewModel: MainUIViewModel by viewModels()
-
+    private lateinit var dpd: DatePickerDialog
     private lateinit var adapter: MainUIAdapter
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,6 +33,35 @@ class MainUI : Fragment() {
         setUpAdapter()
         setUpNavigation()
         setUpObservers()
+        setUpItemTouchHelper()
+    }
+
+    private fun setUpItemTouchHelper() {
+        val itemTouchHelperCallback =
+            object :
+                ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    mainUIViewModel.onDeleteList(adapter.getCategoryPosition(viewHolder.adapterPosition))
+                    Toast.makeText(
+                        context,
+                        "Selected Data Deleted for ${mainUIViewModel.currentDate.value}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+
+        itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerViewMainUIExerciseListForDate)
     }
 
     private fun setUpObservers() {
@@ -83,7 +115,7 @@ class MainUI : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.dateTimPickerMenuItem -> {
-                Toast.makeText(context, "HIIIIII, it works", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Date Time Picker Launched", Toast.LENGTH_SHORT).show()
                 onDisplayDateDialog()
                 true
             }
@@ -94,23 +126,25 @@ class MainUI : Fragment() {
     /**
      * Might be an override method once calender Util has been imported
      */
-    fun onDateChange(year: Int, month: Int, day: Int) {
+    private fun onDateChange(year: Int, month: Int, day: Int) {
         mainUIViewModel.setDate("$day/$month/$year")
+        mainUIViewModel.setDateTimePickerYear(year)
+        mainUIViewModel.setDateTimePickerMonth(month)
+        mainUIViewModel.setDateTimePickerDay(day)
         MainActivity.DataHolder.setDate(mainUIViewModel.currentDate.value!!)
     }
 
-    fun onDisplayDateDialog () {
-
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        val dpd = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, yearSelected, monthOfYear, dayOfMonth ->
-            binding.textViewMainUITitle.text = "$dayOfMonth/$monthOfYear/$yearSelected"
-            onDateChange(yearSelected, monthOfYear, dayOfMonth)
-        }, year, month, day)
-
+    private fun onDisplayDateDialog() {
+        dpd = DatePickerDialog(
+            requireContext(),
+            DatePickerDialog.OnDateSetListener { _, yearSelected, monthOfYear, dayOfMonth ->
+                binding.textViewMainUITitle.text = "$dayOfMonth/$monthOfYear/$yearSelected"
+                onDateChange(yearSelected, monthOfYear, dayOfMonth)
+            },
+            mainUIViewModel.getDateTimePickerYear(),
+            mainUIViewModel.getDateTimePickerMonth(),
+            mainUIViewModel.getDateTimePickerDay()
+        )
         dpd.show()
     }
 

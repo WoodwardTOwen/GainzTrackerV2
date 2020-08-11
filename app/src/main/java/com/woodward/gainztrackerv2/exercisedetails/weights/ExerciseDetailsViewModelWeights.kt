@@ -48,7 +48,7 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
         _exerciseName.value = name
     }
 
-    fun getWeightEntered() : Double? {
+    fun getWeightEntered(): Double? {
         return weightEntered.value
     }
 
@@ -132,7 +132,7 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
             repository.deleteListOFWeightExerciseData(name, date)
         }
 
-    private suspend fun getSetsForNameAndDate(name: String, date: String): Int {
+    private suspend fun getSetsForNameAndDate(name: String, date: String): Int? {
         return repository.getSetsAmountForNameAndDate(name, date)
     }
 
@@ -147,12 +147,27 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
 
     fun onSubmit() {
         viewModelScope.launch {
-
             withContext(Dispatchers.IO) {
-                val sets = getSetsForNameAndDate(exerciseName.value!!, currentDate.value!!) + 1
+                var sets = getSetsForNameAndDate(exerciseName.value!!, currentDate.value!!)
+
+                /**
+                 * When the table has no data based on [exerciseName] and [currentDate] (it must be the first exercise for the date)
+                 * Thus with no data being available creates a null value -> to prevent this a when block is used so no
+                 * 'dirty' data is applied in the db
+                 */
+
+                when (sets) {
+                    null -> {
+                        sets = 1
+                    }
+                    else -> {
+                        sets += 1
+                    }
+                }
+
                 insertData(
                     WeightedExerciseData(
-                        date = exerciseName.value!!,
+                        date = currentDate.value!!,
                         exerciseName = exerciseName.value!!,
                         reps = repsEntered.value!!,
                         rpe = rpeEntered.value!!,
@@ -161,13 +176,15 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
                     )
                 )
                 /**
-                 * May need changing to the list of ID's Instead
+                 * To prevent creating a null run-time exception with DAO and DB
                  */
-                updateSetsForData(sets, exerciseName.value!!, currentDate.value!!)
+                if (sets > 1) {
+                    updateSetsForData(sets, exerciseName.value!!, currentDate.value!!)
+                }
             }
 
+            //("NEEDS CHECKERS BEFORE SUBMITTING")
 
-            TODO("NEEDS CHECKERS BEFORE SUBMITTING")
         }
     }
 

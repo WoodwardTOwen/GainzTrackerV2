@@ -84,6 +84,7 @@
             app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <EditText
             android:id="@+id/weightEditTextExerciseDetailsReps"
             android:layout_width="100dp"

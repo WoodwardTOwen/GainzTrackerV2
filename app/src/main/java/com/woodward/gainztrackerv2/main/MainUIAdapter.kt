@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import com.woodward.gainztrackerv2.databinding.ListItemMainUiBinding
 
@@ -24,6 +25,10 @@ class MainUIAdapter(val clickListener: MainUIAdapterListener) :
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position)!!, clickListener)
+    }
+
+    fun getCategoryPosition(position: Int) : WeightedExerciseData {
+        return getItem(position)
     }
 
 

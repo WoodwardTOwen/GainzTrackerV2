@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.nio.channels.CancelledKeyException
 import java.util.*
 
 class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepository) :
@@ -18,6 +19,24 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
     private val viewModelJob = SupervisorJob()
 
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    /**
+     * year for the datetimePicker
+     */
+
+    private val _year = MutableLiveData<Int>()
+
+    /**
+     * month for the datetimePicker
+     */
+
+    private val _month = MutableLiveData<Int>()
+
+    /**
+     * day for the datetimePicker
+     */
+
+    private val _day = MutableLiveData<Int>()
 
     /**
      * For the current time in the user application state
@@ -34,8 +53,8 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
     /**
      * Needs changing also -> manual input currently -> only used for acceptance testing
      */
-    private val _navigateToExerciseDetailsWeights = MutableLiveData<String>()
-    val navigateToExerciseData: LiveData<String>
+    private val _navigateToExerciseDetailsWeights = MutableLiveData<String?>()
+    val navigateToExerciseData: LiveData<String?>
         get() = _navigateToExerciseDetailsWeights
 
     val exerciseData: LiveData<List<WeightedExerciseData?>> =
@@ -60,12 +79,12 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
         _currentDate.value = date
     }
 
-    private fun initialiseDate() : String?{
+    private fun initialiseDate(): String? {
         val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-        return "$day/$month/$year"
+        setDateTimePickerYear(c.get(Calendar.YEAR))
+        setDateTimePickerMonth(c.get(Calendar.MONTH))
+        setDateTimePickerDay(c.get(Calendar.DAY_OF_MONTH))
+        return "${_day.value}/${_month.value}/${_year.value}"
     }
 
     /**
@@ -73,12 +92,36 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
      * within the main recyclerview within the MainUI
      */
 
+    fun setDateTimePickerYear(year: Int) {
+        _year.value = year
+    }
+
+    fun setDateTimePickerMonth(month: Int) {
+        _month.value = month
+    }
+
+    fun setDateTimePickerDay(day: Int) {
+        _day.value = day
+    }
+
+    fun getDateTimePickerYear() = _year.value!!
+
+    fun getDateTimePickerMonth() = _month.value!!
+
+    fun getDateTimePickerDay() = _day.value!!
+
     fun onExerciseDetailsClicked(name: String) {
         _navigateToExerciseDetailsWeights.value = name
     }
 
     fun onExerciseDetailNavigated() {
         _navigateToExerciseDetailsWeights.value = null
+    }
+
+    fun onDeleteList(weightData: WeightedExerciseData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteListOfExerciseData(weightData.exerciseName!!, weightData.date!!)
+        }
     }
 
     override fun onCleared() {
