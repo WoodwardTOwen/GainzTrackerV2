@@ -24,8 +24,8 @@ class MainUI : Fragment() {
 
     private lateinit var adapter: MainUIAdapter
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this.viewLifecycleOwner
         setUpAdapter()
         setUpNavigation()
@@ -107,7 +107,7 @@ class MainUI : Fragment() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val dpd = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, yearSelected, monthOfYear, dayOfMonth ->
-            binding.textViewMainUITitle.text = "" + dayOfMonth + "/" + monthOfYear + "/" + yearSelected
+            binding.textViewMainUITitle.text = "$dayOfMonth/$monthOfYear/$yearSelected"
             onDateChange(yearSelected, monthOfYear, dayOfMonth)
         }, year, month, day)
 

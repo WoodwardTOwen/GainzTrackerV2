@@ -5,14 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.woodward.gainztrackerv2.database.entity.Category
-import com.woodward.gainztrackerv2.database.entity.ExerciseType
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
-import com.woodward.gainztrackerv2.databinding.ListItemCategoryDetailsBinding
 import com.woodward.gainztrackerv2.databinding.ListItemExerciseDetailsWeightBinding
-import com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryAdapter
-import com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryAdapterListener
-import com.woodward.gainztrackerv2.main.MainUIAdapter
 
 class ExerciseDetailsAdapterWeights(val clickListener: ExerciseDetailsAdapterListener) :
     ListAdapter<WeightedExerciseData, ExerciseDetailsAdapterWeights.ViewHolder>(
@@ -36,15 +30,8 @@ class ExerciseDetailsAdapterWeights(val clickListener: ExerciseDetailsAdapterLis
             clickListener: ExerciseDetailsAdapterListener
         ) {
             binding.exercise = item
-
-            /**
-             *
-             * NEED TO IMPLEMENT CLICK LISTENER
-             *
-             */
-
-            //binding.clickListener = clickListener
-            binding.executePendingBindings() //Optimization technique -> tells data binding to immediately commit all prior data bindings
+            binding.clickListener = clickListener
+            binding.executePendingBindings()
         }
 
         //Inflation of the view

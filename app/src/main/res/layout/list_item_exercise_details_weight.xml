@@ -10,7 +10,9 @@
             name="exercise"
             type="com.woodward.gainztrackerv2.database.entity.WeightedExerciseData" />
 
-        <!-- Need a clickListener here -->
+        <variable
+            name="clickListener"
+            type="com.woodward.gainztrackerv2.exercisedetails.weights.ExerciseDetailsAdapterListener" />
 
     </data>
 

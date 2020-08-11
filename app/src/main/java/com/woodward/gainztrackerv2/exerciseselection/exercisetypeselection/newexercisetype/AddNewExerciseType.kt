@@ -26,8 +26,8 @@ class AddNewExerciseType : Fragment(R.layout.fragment_add_new_exercise_type){
 
     private val newExerciseTypeViewModel : NewExerciseTypeViewModel by viewModels()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this.viewLifecycleOwner
         setUpObservers()
         newExerciseTypeViewModel.setCatID(args.categoryID)
@@ -51,7 +51,7 @@ class AddNewExerciseType : Fragment(R.layout.fragment_add_new_exercise_type){
             newExerciseTypeViewModel.getNameForID(it)
         })
 
-        binding.isCardioSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.isCardioSwitch.setOnCheckedChangeListener { _, isChecked ->
             newExerciseTypeViewModel.setCardio(isChecked)
         }
     }

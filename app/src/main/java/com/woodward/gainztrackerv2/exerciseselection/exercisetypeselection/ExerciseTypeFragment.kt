@@ -27,14 +27,13 @@ class ExerciseTypeFragment : Fragment() {
 
     private val exerciseTypeViewModel: ExerciseTypeViewModel by viewModels()
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this.viewLifecycleOwner
         exerciseTypeViewModel.setCatID(args.categoryID)
         setUpAdapter()
         setUpObservers()
         setUpNavigation()
-
     }
 
     override fun onCreateView(

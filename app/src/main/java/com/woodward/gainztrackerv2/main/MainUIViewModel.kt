@@ -1,5 +1,7 @@
 package com.woodward.gainztrackerv2.main
 
+import android.widget.EditText
+import androidx.databinding.InverseMethod
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData

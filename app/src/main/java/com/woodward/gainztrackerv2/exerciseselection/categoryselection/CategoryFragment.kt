@@ -23,8 +23,8 @@ class CategoryFragment : Fragment() {
     private var _binding: FragmentCategoryPageBinding? = null
     private val binding get() = _binding!!
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this.viewLifecycleOwner
         setUpNavigation()
         setUpAdapter()

@@ -12,6 +12,7 @@
         <variable
             name="weightRelatedData"
             type="com.woodward.gainztrackerv2.database.entity.WeightedExerciseData" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incrementWeightBnt">
+            app:layout_constraintTop_toBottomOf="@+id/incrementWeightBnt"
+            app:layout_constraintVertical_bias="0.855"
+            tools:layout_editor_absoluteX="0dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -36,9 +39,10 @@
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="48dp"
             app:dateFormattedExerciseDetails="@{viewModel.currentDate}"
             app:layout_constraintEnd_toEndOf="@+id/incrementWeightBnt"
+            app:layout_constraintHorizontal_bias="0.485"
             app:layout_constraintStart_toStartOf="@+id/decrementWeightBnt"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Date: 20/10/20" />
@@ -47,8 +51,9 @@
             android:id="@+id/decrementWeightBnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="112dp"
             android:layout_marginEnd="64dp"
+            android:onClick="@{() -> viewModel.decrementWeight()}"
             android:text="@string/decrementButton"
             app:layout_constraintEnd_toStartOf="@+id/incrementWeightBnt"
             app:layout_constraintHorizontal_bias="0.5"
@@ -59,7 +64,9 @@
             android:id="@+id/weightEditTextExerciseDetailsWeight"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="44dp"
+            app:text="@={viewModel.weightEntered}"
+            android:inputType="numberDecimal"
             app:layout_constraintEnd_toStartOf="@+id/incrementWeightBnt"
             app:layout_constraintHorizontal_bias="0.476"
             app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
@@ -69,12 +76,37 @@
             android:id="@+id/incrementWeightBnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="112dp"
             android:text="@string/incrementButton"
+            android:onClick="@{() -> viewModel.incrementWeight()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/weightEditTextExerciseDetailsReps"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:inputType="number"
+            app:text="@={viewModel.repsEntered}"
+            app:layout_constraintEnd_toStartOf="@+id/incrementWeightBnt"
+            app:layout_constraintHorizontal_bias="0.476"
+            app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
+            app:layout_constraintTop_toBottomOf="@+id/weightEditTextExerciseDetailsWeight" />
+
+        <EditText
+            android:id="@+id/weightEditTextExerciseDetailsRPE"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:inputType="number"
+            app:text="@={viewModel.rpeEntered}"
+            app:layout_constraintEnd_toStartOf="@+id/incrementWeightBnt"
+            app:layout_constraintHorizontal_bias="0.476"
+            app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
+            app:layout_constraintTop_toBottomOf="@+id/weightEditTextExerciseDetailsReps" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
