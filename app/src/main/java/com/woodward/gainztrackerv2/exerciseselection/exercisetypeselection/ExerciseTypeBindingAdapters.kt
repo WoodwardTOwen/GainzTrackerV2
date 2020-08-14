@@ -18,6 +18,6 @@ fun TextView.exerciseTypes(item: String?) {
 @BindingAdapter("exerciseTypeCategoryTitle")
 fun TextView.exerciseTypeCategoryTitle(item: String?) {
     item?.let {
-        this.text = "${this.context.getString(R.string.SelectedCategory)} ${item}"
+        this.text = "${this.context.getString(R.string.SelectedCategory)} $item"
     }
 }

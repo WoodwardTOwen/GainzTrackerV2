@@ -4,9 +4,7 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.woodward.gainztrackerv2.database.dao.WeightedExerciseDao
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
-import kotlinx.coroutines.*
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 

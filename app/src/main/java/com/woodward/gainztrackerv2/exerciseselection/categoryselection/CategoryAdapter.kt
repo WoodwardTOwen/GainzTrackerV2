@@ -56,7 +56,7 @@ class CategoryAdapterListener(val clickListener: (catID : Int) -> Unit) {
     fun onClick(cat: Category) = clickListener(cat.categoryID)
 }
 
-class CategoryDiffUtil() : DiffUtil.ItemCallback<Category>() {
+class CategoryDiffUtil : DiffUtil.ItemCallback<Category>() {
     override fun areItemsTheSame(
         oldItem: Category,
         newItem: Category

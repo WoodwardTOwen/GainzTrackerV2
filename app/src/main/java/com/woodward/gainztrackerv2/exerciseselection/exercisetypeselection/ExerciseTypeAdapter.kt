@@ -42,7 +42,7 @@ class ExerciseTypeAdapterListener(val clickListener: (exerciseType : ExerciseTyp
     fun onClick(exercise: ExerciseType) = clickListener(exercise)
 }
 
-class ExerciseTypeDiffUtil() : DiffUtil.ItemCallback<ExerciseType>() {
+class ExerciseTypeDiffUtil : DiffUtil.ItemCallback<ExerciseType>() {
     override fun areItemsTheSame(
         oldItem: ExerciseType,
         newItem: ExerciseType

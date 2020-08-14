@@ -41,7 +41,7 @@ class AddNewCategory : Fragment() {
         return binding.root
     }
 
-    fun setUpNavigation() {
+    private fun setUpNavigation() {
         newCategoryViewModel.transactionCompleted.observe(viewLifecycleOwner, Observer {
                 success ->
             if(success == true) {
@@ -52,7 +52,7 @@ class AddNewCategory : Fragment() {
         })
     }
 
-    fun setUpSnackBar() {
+    private fun setUpSnackBar() {
         newCategoryViewModel.snackBarEvent.observe(viewLifecycleOwner, Observer {
             if(it == true) {
                 Snackbar.make(

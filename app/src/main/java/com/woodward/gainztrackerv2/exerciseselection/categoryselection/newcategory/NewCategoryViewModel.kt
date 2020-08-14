@@ -1,15 +1,11 @@
 package com.woodward.gainztrackerv2.exerciseselection.categoryselection.newcategory
 
-import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.woodward.gainztrackerv2.database.ExerciseDatabase
 import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.repositories.CategoryRepository
-import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import com.woodward.gainztrackerv2.utils.isNullOrWhiteSpace
 import kotlinx.coroutines.*
 
@@ -22,8 +18,8 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
     /**
      * Ensures the transition to add a new Category has been completed
      */
-    private val _transactionCompleted= MutableLiveData<Boolean>()
-    val transactionCompleted : LiveData<Boolean>
+    private val _transactionCompleted= MutableLiveData<Boolean?>()
+    val transactionCompleted : LiveData<Boolean?>
         get() = _transactionCompleted
 
     /**
@@ -35,7 +31,7 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
 
     /**
      * SnackBar to alert the user the input they entered was invalid
-     * uses a helper method from [HelperMethods.kt] to ensure correct input
+     * uses a helper method from HelperMethods.kt to ensure correct input
      */
     private val _snackBarWrongInput = MutableLiveData<Boolean?>()
     val snackBarWrongInput : LiveData<Boolean?>
@@ -46,7 +42,7 @@ class NewCategoryViewModel @ViewModelInject constructor (val repository: Categor
      *
      * Create a new category
      */
-    suspend fun insertNewCategory (category: Category) = repository.insertNewCategory(category)
+    private suspend fun insertNewCategory (category: Category) = repository.insertNewCategory(category)
 
 
     private suspend fun checkIfNameExists(name: String?) : Boolean {

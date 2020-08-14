@@ -4,8 +4,6 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.woodward.gainztrackerv2.database.dao.CategoryDao
 import com.woodward.gainztrackerv2.database.entity.Category
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

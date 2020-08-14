@@ -3,7 +3,6 @@ package com.woodward.gainztrackerv2.repositories
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.woodward.gainztrackerv2.database.dao.ExerciseTypeDao
-import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
 import timber.log.Timber
 import javax.inject.Inject

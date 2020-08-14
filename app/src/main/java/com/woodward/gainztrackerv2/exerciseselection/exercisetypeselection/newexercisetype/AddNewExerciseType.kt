@@ -46,9 +46,9 @@ class AddNewExerciseType : Fragment(R.layout.fragment_add_new_exercise_type){
         })
     }
 
-    fun setUpObservers () {
+    private fun setUpObservers () {
         newExerciseTypeViewModel.storedCatID.observe(viewLifecycleOwner, Observer {
-            newExerciseTypeViewModel.getNameForID(it)
+            newExerciseTypeViewModel.getNameForID(it!!)
         })
 
         binding.isCardioSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -56,7 +56,7 @@ class AddNewExerciseType : Fragment(R.layout.fragment_add_new_exercise_type){
         }
     }
 
-    fun setUpSnackBar() {
+    private fun setUpSnackBar() {
         newExerciseTypeViewModel.snackBarNullOrBlank.observe(viewLifecycleOwner, Observer {
             if(it == true) {
                 Snackbar.make(

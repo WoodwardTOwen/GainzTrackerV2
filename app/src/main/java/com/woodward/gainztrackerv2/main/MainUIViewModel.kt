@@ -1,16 +1,16 @@
 package com.woodward.gainztrackerv2.main
 
-import android.widget.EditText
-import androidx.databinding.InverseMethod
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import com.woodward.gainztrackerv2.repositories.ExerciseRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.nio.channels.CancelledKeyException
 import java.util.*
 
 class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepository) :
@@ -66,7 +66,7 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
      * Deletes list of data from the database based on specified conditions [name] and [date]
      */
 
-    suspend fun deleteListOfExerciseData(name: String, date: String) =
+    private suspend fun deleteListOfExerciseData(name: String, date: String) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteListOFWeightExerciseData(name, date)
         }
@@ -110,11 +110,11 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
 
     fun getDateTimePickerDay() = _day.value!!
 
-    fun onExerciseDetailsClicked(name: String) {
+    private fun onExerciseDetailsClicked(name: String) {
         _navigateToExerciseDetailsWeights.value = name
     }
 
-    fun onExerciseDetailNavigated() {
+    private fun onExerciseDetailNavigated() {
         _navigateToExerciseDetailsWeights.value = null
     }
 

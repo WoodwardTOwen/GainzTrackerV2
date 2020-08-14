@@ -1,14 +1,16 @@
 package com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
 import com.woodward.gainztrackerv2.repositories.ExerciseTypeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import kotlin.math.absoluteValue
 
 class ExerciseTypeViewModel @ViewModelInject constructor (val repository: ExerciseTypeRepository) : ViewModel() {
 
@@ -39,8 +41,8 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
     }
 
 
-    private val _navigateToWeightExerciseDetails = MutableLiveData<Boolean>()
-    val navigateToWeightExerciseDetails: LiveData<Boolean>
+    private val _navigateToWeightExerciseDetails = MutableLiveData<Boolean?>()
+    val navigateToWeightExerciseDetails: LiveData<Boolean?>
         get() = _navigateToWeightExerciseDetails
 
     /**

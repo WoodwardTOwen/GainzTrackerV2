@@ -11,7 +11,7 @@ import com.woodward.gainztrackerv2.R
 @BindingAdapter("setsFormatted") //Might need re-writing
 fun TextView.setsFormatted(item: Int?) {
     item?.let {
-        this.text = "${this.context.getString(R.string.Sets)} ${item}"
+        this.text = "${this.context.getString(R.string.Sets)} $item"
     }
 }
 

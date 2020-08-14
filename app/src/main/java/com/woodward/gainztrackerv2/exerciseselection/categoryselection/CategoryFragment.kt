@@ -45,7 +45,7 @@ class CategoryFragment : Fragment() {
         return binding.root
     }
 
-    fun setUpNavigation() {
+    private fun setUpNavigation() {
         categoryFragViewModel.navigateToExerciseType.observe(viewLifecycleOwner, Observer { cat ->
             cat?.let {
                 this.findNavController()
@@ -55,14 +55,14 @@ class CategoryFragment : Fragment() {
         })
     }
 
-    fun setUpAdapter() {
+    private fun setUpAdapter() {
         adapter = CategoryAdapter(CategoryAdapterListener { catID ->
             categoryFragViewModel.onCategorySelected(catID)
         })
         binding.categoryRecyclerView.adapter = adapter
     }
 
-    fun setUpListObserver() {
+    private fun setUpListObserver() {
         categoryFragViewModel.listOfCategories.observe(viewLifecycleOwner, Observer { categories ->
             categories?.let {
                 adapter.submitList(categories)
@@ -70,7 +70,7 @@ class CategoryFragment : Fragment() {
         })
     }
 
-    fun setUpItemTouchHelper() {
+    private fun setUpItemTouchHelper() {
         val itemTouchHelperCallback =
             object :
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {

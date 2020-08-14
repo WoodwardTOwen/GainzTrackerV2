@@ -53,7 +53,7 @@ class ExerciseDetailsAdapterListener(val clickListener: (weightedExerciseData: W
         clickListener(exercises)
 }
 
-class ExerciseDetailsWeightExerciseDiffUtil() : DiffUtil.ItemCallback<WeightedExerciseData>() {
+class ExerciseDetailsWeightExerciseDiffUtil : DiffUtil.ItemCallback<WeightedExerciseData>() {
     override fun areItemsTheSame(
         oldItem: WeightedExerciseData,
         newItem: WeightedExerciseData

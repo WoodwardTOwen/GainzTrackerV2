@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentMainUIBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -88,7 +87,7 @@ class MainUI : Fragment() {
          *   Will need editing once ExerciseDetails is set up correctly
          */
         adapter = MainUIAdapter(MainUIAdapterListener { name, date ->
-            Toast.makeText(context, "${name} + ${date}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "$name + $date", Toast.LENGTH_LONG).show()
         })
 
         binding.recyclerViewMainUIExerciseListForDate.adapter = adapter

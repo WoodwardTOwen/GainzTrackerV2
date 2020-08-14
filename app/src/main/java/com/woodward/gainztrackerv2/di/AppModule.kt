@@ -3,12 +3,6 @@ package com.woodward.gainztrackerv2.di
 import android.content.Context
 import androidx.room.Room
 import com.woodward.gainztrackerv2.database.ExerciseDatabase
-import com.woodward.gainztrackerv2.database.dao.CategoryDao
-import com.woodward.gainztrackerv2.database.dao.ExerciseTypeDao
-import com.woodward.gainztrackerv2.database.dao.WeightedExerciseDao
-import com.woodward.gainztrackerv2.repositories.CategoryRepository
-import com.woodward.gainztrackerv2.repositories.ExerciseRepository
-import com.woodward.gainztrackerv2.repositories.ExerciseTypeRepository
 import com.woodward.gainztrackerv2.utils.Constants.ROOM_DATABASE_NAME
 import dagger.Module
 import dagger.Provides

@@ -102,7 +102,7 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
     /**
      * Insert Data to DB
      */
-    suspend fun insertData(weightData: WeightedExerciseData) =
+    private suspend fun insertData(weightData: WeightedExerciseData) =
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertWeightExerciseData(weightData)
         }

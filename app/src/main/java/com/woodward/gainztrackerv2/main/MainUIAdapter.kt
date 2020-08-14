@@ -2,10 +2,9 @@ package com.woodward.gainztrackerv2.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import com.woodward.gainztrackerv2.databinding.ListItemMainUiBinding
 
@@ -68,7 +67,7 @@ class MainUIAdapterListener(val clickListener: (name: String?, date: String?) ->
         clickListener(exercises.exerciseName, exercises.date)
 }
 
-class WeightExerciseDiffUtil() : DiffUtil.ItemCallback<WeightedExerciseData>() {
+class WeightExerciseDiffUtil : DiffUtil.ItemCallback<WeightedExerciseData>() {
     override fun areItemsTheSame(
         oldItem: WeightedExerciseData,
         newItem: WeightedExerciseData

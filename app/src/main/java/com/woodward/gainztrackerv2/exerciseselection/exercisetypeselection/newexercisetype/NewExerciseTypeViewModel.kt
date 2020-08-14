@@ -1,15 +1,16 @@
 package com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.newexercisetype
 
-import androidx.databinding.Bindable
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
 import com.woodward.gainztrackerv2.repositories.ExerciseTypeRepository
 import com.woodward.gainztrackerv2.utils.isNullOrWhiteSpace
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: ExerciseTypeRepository) :
     ViewModel() {
@@ -22,42 +23,42 @@ class NewExerciseTypeViewModel @ViewModelInject constructor(val repository: Exer
      * Manages whether the switch was turned to a cardiovascular format or not
      */
 
-    private val _cardio = MutableLiveData<Boolean>(false)
-    val cardio: LiveData<Boolean>
+    private val _cardio = MutableLiveData<Boolean?>(false)
+    val cardio: LiveData<Boolean?>
         get() = _cardio
 
     /**
      * Stores the category ID -> used for the FK for creating the new exerciseType
      */
-    private val _storedCatID = MutableLiveData<Int>()
-    val storedCatID: LiveData<Int>
+    private val _storedCatID = MutableLiveData<Int?>()
+    val storedCatID: LiveData<Int?>
         get() = _storedCatID
 
     /**
      * Used for display in the title for the Add New Exercise Type section
      */
-    private val _storedCategoryName = MutableLiveData<String>()
-    val storedCategoryName: LiveData<String>
+    private val _storedCategoryName = MutableLiveData<String?>()
+    val storedCategoryName: LiveData<String?>
         get() = _storedCategoryName
 
     /**
      * Alerts the fragment transaction as complete
      */
 
-    private val _transactionCompleted = MutableLiveData<Boolean>()
-    val transCompleted: LiveData<Boolean>
+    private val _transactionCompleted = MutableLiveData<Boolean?>()
+    val transCompleted: LiveData<Boolean?>
         get() = _transactionCompleted
 
     /**
      * Manages the SnackBar Messages that are shown to the user
      */
 
-    private val _snackBarNullOrBlank = MutableLiveData<Boolean>()
-    val snackBarNullOrBlank: LiveData<Boolean>
+    private val _snackBarNullOrBlank = MutableLiveData<Boolean?>()
+    val snackBarNullOrBlank: LiveData<Boolean?>
         get() = _snackBarNullOrBlank
 
-    private val _snackBarAlreadyExists = MutableLiveData<Boolean>()
-    val snackBarAlreadyExists: LiveData<Boolean>
+    private val _snackBarAlreadyExists = MutableLiveData<Boolean?>()
+    val snackBarAlreadyExists: LiveData<Boolean?>
         get() = _snackBarAlreadyExists
 
     private suspend fun insertNewExerciseType(exerciseType: ExerciseType) = viewModelScope.launch (Dispatchers.IO) {

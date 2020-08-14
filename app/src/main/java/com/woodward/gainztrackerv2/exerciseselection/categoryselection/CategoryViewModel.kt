@@ -1,13 +1,16 @@
 package com.woodward.gainztrackerv2.exerciseselection.categoryselection
 
-import android.app.Application
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
-import com.woodward.gainztrackerv2.database.ExerciseDatabase
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.repositories.CategoryRepository
-import com.woodward.gainztrackerv2.repositories.ExerciseRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.util.*
 
 class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRepository) : ViewModel() {
@@ -23,8 +26,8 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
      * because unsure as to whether the variable will receive updates via New Cat's, Updating and Deletion
      */
 
-    private val _navigateToExerciseType= MutableLiveData<Int>()
-    val navigateToExerciseType :LiveData<Int>
+    private val _navigateToExerciseType= MutableLiveData<Int?>()
+    val navigateToExerciseType :LiveData<Int?>
         get() = _navigateToExerciseType
 
     private val _currentDate = MutableLiveData<Date>()
@@ -56,7 +59,7 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
     /**
      * Delete a category from a pre-existing list
      */
-    suspend fun deleteCategory(category: Category) {
+    private suspend fun deleteCategory(category: Category) {
         repository.deleteCategory(category)
     }
 
