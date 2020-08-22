@@ -2,11 +2,11 @@ package com.woodward.gainztrackerv2.exercisedetails.weights
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseDetailsWeightsBinding
 import com.woodward.gainztrackerv2.main.MainActivity
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ExerciseDetailsWeights : Fragment() {
 
-    private var _binding : FragmentExerciseDetailsWeightsBinding? = null
+    private var _binding: FragmentExerciseDetailsWeightsBinding? = null
     private val binding get() = _binding!!
 
     private val args: ExerciseDetailsWeightsArgs by navArgs()
@@ -30,28 +30,53 @@ class ExerciseDetailsWeights : Fragment() {
         exerciseDetailsViewModel.setIsCardio(args.isCardioArg)
         exerciseDetailsViewModel.setExerciseName(args.exerciseName)
         setUpAdapter()
+        setUpObservers()
+        activity?.title = exerciseDetailsViewModel.exerciseName.value
+    }
+
+    private fun setUpObservers() {
+        exerciseDetailsViewModel.exerciseData.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
+
+        exerciseDetailsViewModel.snackBarInvalidInputEvent.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    getString(R.string.Input_Error_For_Fields),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                exerciseDetailsViewModel.doneShowingSnackBarEventInvalidInput()
+            }
+        })
+
+        exerciseDetailsViewModel.snackBarDeletedDataEvent.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    "All Data has Been successfully Deleted for the exercise: ${exerciseDetailsViewModel.exerciseName.value!!} on ${exerciseDetailsViewModel.currentDate.value!!}",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                exerciseDetailsViewModel.doneShowingSnackBarEventDeletedData()
+            }
+        })
     }
 
     private fun setUpAdapter() {
         adapter = ExerciseDetailsAdapterWeights(ExerciseDetailsAdapterListener { weightData ->
-            Toast.makeText(context, "$weightData was chosen", Toast.LENGTH_SHORT).show()
-
-            /**
-             * NEEDS CHANGING -> load data into the edit text boxes
-             */
-
+            exerciseDetailsViewModel.onClickSetTextBoxData(weightData)
         })
 
-        exerciseDetailsViewModel.weightEntered.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, "$it", Toast.LENGTH_SHORT).show()
-        })
-
-        exerciseDetailsViewModel.repsEntered.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, "$it", Toast.LENGTH_SHORT).show()
-        })
+        binding.recyclerViewExerciseDetailsWeight.adapter = adapter
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = FragmentExerciseDetailsWeightsBinding.inflate(inflater, container, false).apply {
             //Assign Binding variable to have communication with the ViewModel
             viewModel = exerciseDetailsViewModel
@@ -69,12 +94,12 @@ class ExerciseDetailsWeights : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.new_exercise_data -> {
-                /**
-                 * onSubmit Here from the viewModel
-                 */
+                /**onSubmit Here from the viewModel*/
                 exerciseDetailsViewModel.onSubmit()
-
-
+                true
+            }
+            R.id.delete_all_exercise_data -> {
+                exerciseDetailsViewModel.onDeleteAllData()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -84,5 +109,6 @@ class ExerciseDetailsWeights : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        activity?.title = getString(R.string.Title)
     }
 }

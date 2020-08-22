@@ -4,13 +4,17 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-//Needs editing -> Not a priority for development right now
 @Entity(tableName = "Cardio_Exercise_Data_Table")
 data class CardiovascularExerciseData(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ID")
-    val exerciseID: Int,
-    var time: Int,
+    val cardio_exerciseID: Int = 0,
+    @ColumnInfo(name = "Name")
+    val exerciseName: String?,
+    var time: String,
+    @ColumnInfo(name = "Unit_Of_Measurement")
+    var unit: String,
     var distance: Float,
-    var sets: Int
+    var sets: Int,
+    var date: String
 )

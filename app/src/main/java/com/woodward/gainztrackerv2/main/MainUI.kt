@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentMainUIBinding
+import com.woodward.gainztrackerv2.main.adapters.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -23,7 +25,10 @@ class MainUI : Fragment() {
 
     private val mainUIViewModel: MainUIViewModel by viewModels()
     private lateinit var dpd: DatePickerDialog
-    private lateinit var adapter: MainUIAdapter
+
+    private val weightHeaderAdapter by lazy { WeightHeaderAdapter() }
+    private lateinit var adapterWeight: WeightMainUiAdapter
+    private lateinit var adapterCardio: CardioMainUIAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +54,7 @@ class MainUI : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    mainUIViewModel.onDeleteList(adapter.getCategoryPosition(viewHolder.adapterPosition))
+                    mainUIViewModel.onDeleteList(adapterWeight.getCategoryPosition(viewHolder.bindingAdapterPosition))
                     Toast.makeText(
                         context,
                         "Selected Data Deleted for ${mainUIViewModel.currentDate.value}",
@@ -66,7 +71,7 @@ class MainUI : Fragment() {
     private fun setUpObservers() {
         mainUIViewModel.exerciseData.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it)
+                adapterWeight.submitList(it)
             }
         })
 
@@ -86,11 +91,23 @@ class MainUI : Fragment() {
         /**
          *   Will need editing once ExerciseDetails is set up correctly
          */
-        adapter = MainUIAdapter(MainUIAdapterListener { name, date ->
+
+        adapterWeight = WeightMainUiAdapter(MainUIAdapterListener { name, date ->
             Toast.makeText(context, "$name + $date", Toast.LENGTH_LONG).show()
         })
 
-        binding.recyclerViewMainUIExerciseListForDate.adapter = adapter
+        adapterCardio = CardioMainUIAdapter(MainUiAdapterListenerCardio { name, date ->
+            Toast.makeText(context, "$name + $date", Toast.LENGTH_LONG).show()
+        })
+
+        createWeightHeaderAdapter()
+
+        val concatAdapter = ConcatAdapter(weightHeaderAdapter, adapterWeight, adapterCardio)
+        binding.recyclerViewMainUIExerciseListForDate.adapter = concatAdapter
+    }
+
+    private fun createWeightHeaderAdapter() = WeightHeaderAdapter.apply {
+        weightHeaderAdapter.onWeightHeaderListener = { Toast.makeText(context, "$it", Toast.LENGTH_LONG).show() }
     }
 
     override fun onCreateView(
@@ -136,7 +153,7 @@ class MainUI : Fragment() {
     private fun onDisplayDateDialog() {
         dpd = DatePickerDialog(
             requireContext(),
-            DatePickerDialog.OnDateSetListener { _, yearSelected, monthOfYear, dayOfMonth ->
+            { _, yearSelected, monthOfYear, dayOfMonth ->
                 binding.textViewMainUITitle.text = "$dayOfMonth/$monthOfYear/$yearSelected"
                 onDateChange(yearSelected, monthOfYear, dayOfMonth)
             },
@@ -150,5 +167,6 @@ class MainUI : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        weightHeaderAdapter.onClear()
     }
 }

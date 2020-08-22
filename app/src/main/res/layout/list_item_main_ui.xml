@@ -11,7 +11,7 @@
 
         <variable
             name="clickListener"
-            type="com.woodward.gainztrackerv2.main.MainUIAdapterListener" />
+            type="com.woodward.gainztrackerv2.main.adapters.MainUIAdapterListener" />
     </data>
 
     <androidx.cardview.widget.CardView

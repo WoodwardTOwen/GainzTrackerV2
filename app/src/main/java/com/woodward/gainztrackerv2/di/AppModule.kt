@@ -40,4 +40,8 @@ object AppModule {
     @Provides
     fun provideExerciseTypeDao(db: ExerciseDatabase) = db.ExerciseType()
 
+    @Singleton
+    @Provides
+    fun provideCardioDao(db: ExerciseDatabase) = db.CardioExerciseDao()
+
 }

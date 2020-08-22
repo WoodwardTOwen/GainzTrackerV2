@@ -6,4 +6,10 @@
         android:icon="@drawable/save_icon_white"
         android:title="@string/add_new_exercise_data"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/delete_all_exercise_data"
+        android:icon="@drawable/delete_white"
+        android:title="@string/delete_all_exercise_data"
+        app:showAsAction="ifRoom" />
 </menu>

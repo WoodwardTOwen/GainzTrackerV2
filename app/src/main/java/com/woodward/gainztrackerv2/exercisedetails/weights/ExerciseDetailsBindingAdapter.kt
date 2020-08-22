@@ -103,20 +103,21 @@ fun getIntFromTextView(editText: TextView): Int? {
  */
 
 @BindingAdapter("weightFormatted")
-fun weightFormatted(view: TextView, item: WeightedExerciseData?) {
+fun TextView.weightFormatted(item: Double?) {
     item?.let {
-        view.text = (item.weight + R.string.Kg).toString()
+        this.text = "$item ${this.context.getString(R.string.Kg)}"
     }
 }
+
 
 /**
  * For the Exercise Details RecyclerView when viewing the exercise detailing (weights) -> Binding adapter for reps
  */
 
 @BindingAdapter("repsFormatted")
-fun repsFormatted(view: TextView, item: WeightedExerciseData?) {
+fun TextView.repsFormatted(item: Int?) {
     item?.let {
-        view.setText(item.reps + R.string.Reps)
+        this.text = "$item ${this.context.getString(R.string.Reps)}"
     }
 }
 
@@ -125,9 +126,9 @@ fun repsFormatted(view: TextView, item: WeightedExerciseData?) {
  */
 
 @BindingAdapter("rpeFormatted")
-fun rpeFormatted(view: TextView, item: WeightedExerciseData?) {
+fun TextView.rpeFormatted(item: Int?) {
     item?.let {
-        view.setText(item.rpe + R.string.RPE)
+        this.text = "${this.context.getString(R.string.RPE)} $item"
     }
 }
 

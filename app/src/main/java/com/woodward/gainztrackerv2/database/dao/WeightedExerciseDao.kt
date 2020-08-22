@@ -21,8 +21,8 @@ interface WeightedExerciseDao {
      *
      */
 
-    @Query("UPDATE weight_exercise_data_table SET sets = :pSets WHERE Id in (:idList)")
-    suspend fun UpdateSetsExercise(idList: List<Int?>, pSets: Int?)
+    /*@Query("UPDATE weight_exercise_data_table SET sets = :pSets WHERE Id in (:idList)")
+    suspend fun UpdateSetsExercise(idList: List<Int?>, pSets: Int?)*/
 
     /**
      * Returns current amount of sets value for certain exercise name + date

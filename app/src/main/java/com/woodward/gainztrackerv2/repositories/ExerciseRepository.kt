@@ -65,4 +65,10 @@ class ExerciseRepository @Inject constructor(val dao: WeightedExerciseDao) {
         Timber.i("Call for update on the sets of exercise Data")
         return dao.updateSetsForExercises(sets, name, date)
     }
+
+    @WorkerThread
+    fun getListOfWeightResistedDate(date: String) : LiveData<List<WeightedExerciseData?>>{
+        Timber.i("Call for get all exercise data for adapter")
+        return dao.GetAllExercisesByDate(date)
+    }
 }

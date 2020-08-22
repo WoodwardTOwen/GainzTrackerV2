@@ -47,7 +47,6 @@ class ExerciseDetailsAdapterWeights(val clickListener: ExerciseDetailsAdapterLis
     }
 }
 
-
 class ExerciseDetailsAdapterListener(val clickListener: (weightedExerciseData: WeightedExerciseData) -> Unit) {
     fun onClick(exercises: WeightedExerciseData) =
         clickListener(exercises)

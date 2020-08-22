@@ -4,26 +4,16 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import com.woodward.gainztrackerv2.repositories.ExerciseRepository
+import com.woodward.gainztrackerv2.utils.isNullInt
+import com.woodward.gainztrackerv2.utils.isNullOrWhiteSpace
+import com.woodward.gainztrackerv2.utils.isNumericOrNullDouble
 import kotlinx.coroutines.*
 
 class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repository: ExerciseRepository) :
     ViewModel() {
 
     private val viewModelJob = SupervisorJob()
-
     private val viewModelScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    val weightEntered = MutableLiveData<Double>(0.0)
-    val repsEntered = MutableLiveData(0)
-    val rpeEntered = MutableLiveData(0)
-
-    private val _exerciseName = MutableLiveData<String>()
-    val exerciseName: LiveData<String>
-        get() = _exerciseName
-
-    private val _isCardio = MutableLiveData<Boolean>()
-    val isCardio: LiveData<Boolean>
-        get() = _isCardio
 
     /**
      * For the current time in the user application state
@@ -31,6 +21,46 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
     private val _currentDate = MutableLiveData<String>()
     val currentDate: LiveData<String>
         get() = _currentDate
+
+
+    val exerciseData: LiveData<List<WeightedExerciseData?>> =
+        Transformations.switchMap(currentDate) { currentDate ->
+            repository.getListOfWeightResistedDate(currentDate)
+        }
+
+    /**
+     * Variables for applying new data to the db -> for the [onSubmit] method
+     */
+
+    val weightEntered = MutableLiveData<Double?>()
+    val repsEntered = MutableLiveData<Int?>()
+    val rpeEntered = MutableLiveData<Int?>()
+
+    private val _isCardio = MutableLiveData<Boolean>()
+
+    private val _exerciseName = MutableLiveData<String>()
+    val exerciseName: LiveData<String>
+        get() = _exerciseName
+
+    /** For alerting the user something went wrong*/
+
+    private val _snackBarInvalidInputEvent = MutableLiveData<Boolean>()
+    val snackBarInvalidInputEvent: LiveData<Boolean>
+        get() = _snackBarInvalidInputEvent
+
+    fun doneShowingSnackBarEventInvalidInput() {
+        _snackBarInvalidInputEvent.value = false
+    }
+
+    /**For alerting the user that the data has been deleted*/
+
+    private val _snackBarDeletedDataEvent = MutableLiveData<Boolean>()
+    val snackBarDeletedDataEvent: LiveData<Boolean>
+        get() = _snackBarDeletedDataEvent
+
+    fun doneShowingSnackBarEventDeletedData() {
+        _snackBarDeletedDataEvent.value = false
+    }
 
     /**
      * Initializer Block for repos and data source
@@ -48,20 +78,21 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
         _exerciseName.value = name
     }
 
-    fun getWeightEntered(): Double? {
-        return weightEntered.value
-    }
-
     /**
      * Controls Weight Related Buttons
      */
 
     fun incrementWeight() {
+        if (weightEntered.value == null) {
+            weightEntered.value = 0.0
+        }
         weightEntered.value = (weightEntered.value)?.plus(2.5)
     }
 
     fun decrementWeight() {
-        if (weightEntered.value!! >= 2.5) {
+        if (weightEntered.value == null) {
+            return
+        } else if (weightEntered.value!! >= 2.5) {
             weightEntered.value = (weightEntered.value)?.minus(2.5)
         }
     }
@@ -103,9 +134,8 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
      * Insert Data to DB
      */
     private suspend fun insertData(weightData: WeightedExerciseData) =
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insertWeightExerciseData(weightData)
-        }
+        repository.insertWeightExerciseData(weightData)
+
 
     /**
      * Updates Data in DB
@@ -128,9 +158,7 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
      */
 
     suspend fun deleteAllDelete(name: String, date: String) =
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteListOFWeightExerciseData(name, date)
-        }
+        repository.deleteListOFWeightExerciseData(name, date)
 
     private suspend fun getSetsForNameAndDate(name: String, date: String): Int? {
         return repository.getSetsAmountForNameAndDate(name, date)
@@ -147,46 +175,85 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
 
     fun onSubmit() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                var sets = getSetsForNameAndDate(exerciseName.value!!, currentDate.value!!)
 
-                /**
-                 * When the table has no data based on [exerciseName] and [currentDate] (it must be the first exercise for the date)
-                 * Thus with no data being available creates a null value -> to prevent this a when block is used so no
-                 * 'dirty' data is applied in the db
-                 */
-
-                when (sets) {
-                    null -> {
-                        sets = 1
-                    }
-                    else -> {
-                        sets += 1
-                    }
+            when {
+                isNumericOrNullDouble(weightEntered.value) || isNullInt(repsEntered.value) || isNullInt(
+                    rpeEntered.value
+                ) -> {
+                    _snackBarInvalidInputEvent.value = true
                 }
+                else ->
+                    withContext(Dispatchers.IO) {
+                        var sets = getSetsForNameAndDate(exerciseName.value!!, currentDate.value!!)
 
-                insertData(
-                    WeightedExerciseData(
-                        date = currentDate.value!!,
-                        exerciseName = exerciseName.value!!,
-                        reps = repsEntered.value!!,
-                        rpe = rpeEntered.value!!,
-                        weight = weightEntered.value!!,
-                        sets = sets
-                    )
-                )
-                /**
-                 * To prevent creating a null run-time exception with DAO and DB
-                 */
-                if (sets > 1) {
-                    updateSetsForData(sets, exerciseName.value!!, currentDate.value!!)
-                }
+                        /**
+                         * When the table has no data based on [exerciseName] and [currentDate] (it must be the first exercise for the date)
+                         * Thus with no data being available creates a null value -> to prevent this a when block is used so no
+                         * 'dirty' data is applied in the db
+                         */
+
+                        when (sets) {
+                            null -> {
+                                sets = 1
+                            }
+                            else -> {
+                                sets += 1
+                            }
+                        }
+
+                        insertData(
+                            WeightedExerciseData(
+                                date = currentDate.value!!,
+                                exerciseName = exerciseName.value!!,
+                                reps = repsEntered.value!!,
+                                rpe = rpeEntered.value!!,
+                                weight = weightEntered.value!!,
+                                sets = sets
+                            )
+                        )
+                        /**
+                         * To prevent creating a null run-time exception with DAO and DB
+                         */
+                        if (sets > 1) {
+                            updateSetsForData(sets, exerciseName.value!!, currentDate.value!!)
+                        }
+
+                        withContext(Dispatchers.Main) {
+                            /**
+                             * Switching back to the main thread -> clear the textbox input and start fresh in the UI
+                             */
+                            clearInputBoxes()
+                        }
+                    }
             }
-
-            //("NEEDS CHECKERS BEFORE SUBMITTING")
-
         }
     }
+
+
+    fun onDeleteAllData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteAllDelete(exerciseName.value!!, currentDate.value!!)
+        }
+        _snackBarDeletedDataEvent.value = true
+    }
+
+
+    /**
+     * Field Control for when given actions are created
+     */
+
+    private fun clearInputBoxes() {
+        weightEntered.value = null
+        repsEntered.value = null
+        rpeEntered.value = null
+    }
+
+    fun onClickSetTextBoxData(weightData: WeightedExerciseData) {
+        weightEntered.value = weightData.weight
+        repsEntered.value = weightData.reps
+        rpeEntered.value = weightData.rpe
+    }
+
 
     /**
      * Clears up the jobs so the coroutine wont be stuck in the background if the ViewModel is destroyed
