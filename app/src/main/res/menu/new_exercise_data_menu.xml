@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/new_exercise_data"
-        android:icon="@drawable/save_icon_white"
-        android:title="@string/add_new_exercise_data"
+        android:id="@+id/return_home"
+        android:icon="@drawable/home_logo_white"
+        android:title="@string/return_home"
         app:showAsAction="ifRoom"/>
 
     <item

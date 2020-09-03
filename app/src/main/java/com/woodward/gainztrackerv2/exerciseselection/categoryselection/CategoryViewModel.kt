@@ -75,7 +75,7 @@ class CategoryViewModel @ViewModelInject constructor(val repository: CategoryRep
      */
 
     val noCategoriesAvailable = Transformations.map(listOfCategories) {
-        null == it
+        it.isEmpty()
     }
 
 

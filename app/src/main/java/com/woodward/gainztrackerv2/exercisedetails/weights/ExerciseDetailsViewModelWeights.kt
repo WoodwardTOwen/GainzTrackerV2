@@ -22,10 +22,13 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
     val currentDate: LiveData<String>
         get() = _currentDate
 
+    private val _exerciseName = MutableLiveData<String>()
+    val exerciseName: LiveData<String>
+        get() = _exerciseName
 
     val exerciseData: LiveData<List<WeightedExerciseData?>> =
-        Transformations.switchMap(currentDate) { currentDate ->
-            repository.getListOfWeightResistedDate(currentDate)
+        Transformations.switchMap(exerciseName) { exerciseName ->
+            repository.getListOfWeightResistedDate(exerciseName, currentDate.value!!)
         }
 
     /**
@@ -38,9 +41,40 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
 
     private val _isCardio = MutableLiveData<Boolean>()
 
-    private val _exerciseName = MutableLiveData<String>()
-    val exerciseName: LiveData<String>
-        get() = _exerciseName
+    /**
+     * If [newDataSubmitted] evaluates to true -> onBackPressed will automatically navigate to the main menu
+     * else -> onBackPressed will go back to the exercise type due to assumed mistake of choosing
+     * the exercise type
+     */
+
+    private val _newDataSubmitted = MutableLiveData(false)
+    val newDataSubmitted: LiveData<Boolean>
+        get() = _newDataSubmitted
+
+    private fun setNewDataSubmitted() {
+        _newDataSubmitted.value = true
+    }
+
+    fun getNewDataSubmittedStatus() = newDataSubmitted.value
+
+    fun resetStatusForNewDataSubmitted() {
+        _newDataSubmitted.value = false
+    }
+
+    /**
+     * Controlling whether the user has clicked an exercise value or not
+     *
+     * when [updateRequestedOnRequest] is false -> regular onSubmit Function
+     * when [updateRequestedOnRequest] is true -> change button status to update
+     */
+
+    private val _updateRequestOnExercise = MutableLiveData<Boolean>()
+    val updateRequestedOnRequest: LiveData<Boolean>
+        get() = _updateRequestOnExercise
+
+
+    private val _cachedExerciseData = MutableLiveData<WeightedExerciseData>()
+
 
     /** For alerting the user something went wrong*/
 
@@ -174,58 +208,70 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
      */
 
     fun onSubmit() {
-        viewModelScope.launch {
 
-            when {
-                isNumericOrNullDouble(weightEntered.value) || isNullInt(repsEntered.value) || isNullInt(
-                    rpeEntered.value
-                ) -> {
-                    _snackBarInvalidInputEvent.value = true
-                }
-                else ->
-                    withContext(Dispatchers.IO) {
-                        var sets = getSetsForNameAndDate(exerciseName.value!!, currentDate.value!!)
+        when {
+            isNumericOrNullDouble(weightEntered.value) || isNullInt(repsEntered.value) || isNullInt(
+                rpeEntered.value
+            ) -> {
+                _snackBarInvalidInputEvent.value = true
+            }
+            else ->
+                viewModelScope.launch(Dispatchers.IO) {
+                    var sets = getSetsForNameAndDate(exerciseName.value!!, currentDate.value!!)
 
-                        /**
-                         * When the table has no data based on [exerciseName] and [currentDate] (it must be the first exercise for the date)
-                         * Thus with no data being available creates a null value -> to prevent this a when block is used so no
-                         * 'dirty' data is applied in the db
-                         */
+                    /**
+                     * When the table has no data based on [exerciseName] and [currentDate] (it must be the first exercise for the date)
+                     * Thus with no data being available creates a null value -> to prevent this a when block is used so no
+                     * 'dirty' data is applied in the db
+                     */
 
-                        when (sets) {
-                            null -> {
-                                sets = 1
-                            }
-                            else -> {
-                                sets += 1
-                            }
+                    when (sets) {
+                        null -> {
+                            sets = 1
                         }
-
-                        insertData(
-                            WeightedExerciseData(
-                                date = currentDate.value!!,
-                                exerciseName = exerciseName.value!!,
-                                reps = repsEntered.value!!,
-                                rpe = rpeEntered.value!!,
-                                weight = weightEntered.value!!,
-                                sets = sets
-                            )
-                        )
-                        /**
-                         * To prevent creating a null run-time exception with DAO and DB
-                         */
-                        if (sets > 1) {
-                            updateSetsForData(sets, exerciseName.value!!, currentDate.value!!)
-                        }
-
-                        withContext(Dispatchers.Main) {
-                            /**
-                             * Switching back to the main thread -> clear the textbox input and start fresh in the UI
-                             */
-                            clearInputBoxes()
+                        else -> {
+                            sets += 1
                         }
                     }
+
+                    insertData(
+                        WeightedExerciseData(
+                            date = currentDate.value!!,
+                            exerciseName = exerciseName.value!!,
+                            reps = repsEntered.value!!,
+                            rpe = rpeEntered.value!!,
+                            weight = weightEntered.value!!,
+                            sets = sets
+                        )
+                    )
+                    /**
+                     * To prevent creating a null run-time exception with DAO and DB
+                     */
+                    if (sets > 1) {
+                        updateSetsForData(sets, exerciseName.value!!, currentDate.value!!)
+                    }
+                    /**
+                     * Switching back to the main thread -> clear the textbox input and start fresh in the UI
+                     */
+                    withContext(Dispatchers.Main){
+                        clearInputBoxes()
+                        setNewDataSubmitted()
+                    }
+                }
+        }
+    }
+
+    fun onSubmitUpdate(weightData: WeightedExerciseData) {
+        when {
+            isNumericOrNullDouble(weightEntered.value) || isNullInt(repsEntered.value) || isNullInt(
+                rpeEntered.value
+            ) -> {
+                _snackBarInvalidInputEvent.value = true
             }
+            else ->
+                viewModelScope.launch(Dispatchers.IO) {
+                    updateData(weightData)
+                }
         }
     }
 
@@ -260,6 +306,7 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
      */
     override fun onCleared() {
         super.onCleared()
+        _cachedExerciseData.value = null
         viewModelJob.cancel()
     }
 }

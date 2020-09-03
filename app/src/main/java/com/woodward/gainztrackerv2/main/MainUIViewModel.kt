@@ -45,10 +45,11 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
     val currentDate: LiveData<String>
         get() = _currentDate
 
-    private val _datePickerTriggered = MutableLiveData<Boolean>()
-    val datePickerTriggered: LiveData<Boolean>
-        get() = _datePickerTriggered
-
+    /**
+     * Default to true to ensure first initialisation ensures submission of date to UI
+     * Main aim of [datePickerTriggered] = to stop unnecessary calls for clearing and updating recyclerview
+     */
+    private val datePickerTriggered = MutableLiveData(true)
 
     /**
      * Needs changing also -> manual input currently -> only used for acceptance testing
@@ -57,9 +58,19 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
     val navigateToExerciseData: LiveData<String?>
         get() = _navigateToExerciseDetailsWeights
 
-    val exerciseData: LiveData<List<WeightedExerciseData?>> =
+    val exerciseData: LiveData<List<WeightedExerciseData>> =
         Transformations.switchMap(currentDate) { currentDate ->
             repository.getNameAndSetsForDateMainUI(currentDate)
+        }
+
+    /**
+     * For DataBinding in Expandable Header
+     */
+    val exerciseTotalSetsWeight: LiveData<Int?> =
+        Transformations.switchMap(currentDate) { currentDate ->
+            repository.getAllWeightSetDataForDate(
+                currentDate
+            )
         }
 
     /**
@@ -80,11 +91,21 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
     }
 
     private fun initialiseDate(): String? {
-        val c = Calendar.getInstance()
-        setDateTimePickerYear(c.get(Calendar.YEAR))
-        setDateTimePickerMonth(c.get(Calendar.MONTH))
-        setDateTimePickerDay(c.get(Calendar.DAY_OF_MONTH))
-        return "${_day.value}/${_month.value}/${_year.value}"
+        return if (MainActivity.DataHolder.getDate().isNotBlank()) {
+            parseDateIfExists(MainActivity.DataHolder.getDate())
+            MainActivity.DataHolder.getDate()
+        } else {
+            val c = Calendar.getInstance()
+            setDateTimePickerYear(c.get(Calendar.YEAR))
+            setDateTimePickerMonth(c.get(Calendar.MONTH))
+            setDateTimePickerDay(c.get(Calendar.DAY_OF_MONTH))
+            "${_day.value}/${_month.value}/${_year.value}"
+        }
+    }
+
+    private fun parseDateIfExists(date: String) {
+        val dateValues = date.split("/").toTypedArray()
+        setDateUnit(dateValues[2].toInt(), dateValues[1].toInt(), dateValues[0].toInt())
     }
 
     /**
@@ -92,15 +113,21 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
      * within the main recyclerview within the MainUI
      */
 
-    fun setDateTimePickerYear(year: Int) {
+    fun setDateUnit(year: Int, month: Int, day: Int) {
+        setDateTimePickerYear(year)
+        setDateTimePickerMonth(month)
+        setDateTimePickerDay(day)
+    }
+
+    private fun setDateTimePickerYear(year: Int) {
         _year.value = year
     }
 
-    fun setDateTimePickerMonth(month: Int) {
+    private fun setDateTimePickerMonth(month: Int) {
         _month.value = month
     }
 
-    fun setDateTimePickerDay(day: Int) {
+    private fun setDateTimePickerDay(day: Int) {
         _day.value = day
     }
 
@@ -116,6 +143,14 @@ class MainUIViewModel @ViewModelInject constructor(val repository: ExerciseRepos
 
     private fun onExerciseDetailNavigated() {
         _navigateToExerciseDetailsWeights.value = null
+    }
+
+    fun onDateChange(date: String) {
+        if (date != currentDate.value!!) datePickerTriggered.value = true
+    }
+
+    fun onDateChangeSuccessful() {
+        datePickerTriggered.value = false
     }
 
     fun onDeleteList(weightData: WeightedExerciseData) {

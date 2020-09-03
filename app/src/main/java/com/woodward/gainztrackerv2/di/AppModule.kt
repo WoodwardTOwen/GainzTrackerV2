@@ -3,12 +3,15 @@ package com.woodward.gainztrackerv2.di
 import android.content.Context
 import androidx.room.Room
 import com.woodward.gainztrackerv2.database.ExerciseDatabase
+import com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryAdapter
+import com.woodward.gainztrackerv2.exerciseselection.categoryselection.CategoryAdapterListener
 import com.woodward.gainztrackerv2.utils.Constants.ROOM_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Singleton
 
 /**
@@ -43,5 +46,4 @@ object AppModule {
     @Singleton
     @Provides
     fun provideCardioDao(db: ExerciseDatabase) = db.CardioExerciseDao()
-
 }

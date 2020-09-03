@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.woodward.gainztrackerv2.database.entity.ExerciseType
 import com.woodward.gainztrackerv2.databinding.ListItemExerciseTypeDetailsBinding
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
-class ExerciseTypeAdapter (val clickListener : ExerciseTypeAdapterListener) : ListAdapter<ExerciseType, ExerciseTypeAdapter.ViewHolder>(ExerciseTypeDiffUtil()) {
+@FragmentScoped
+class ExerciseTypeAdapter @Inject constructor(val clickListener : ExerciseTypeAdapterListener) : ListAdapter<ExerciseType, ExerciseTypeAdapter.ViewHolder>(ExerciseTypeDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.viewHolderInflation(parent)
     }
@@ -38,7 +41,8 @@ class ExerciseTypeAdapter (val clickListener : ExerciseTypeAdapterListener) : Li
     }
 }
 
-class ExerciseTypeAdapterListener(val clickListener: (exerciseType : ExerciseType) -> Unit) {
+@FragmentScoped
+class ExerciseTypeAdapterListener @Inject constructor(@JvmSuppressWildcards val clickListener: (exerciseType : ExerciseType) -> Unit) {
     fun onClick(exercise: ExerciseType) = clickListener(exercise)
 }
 

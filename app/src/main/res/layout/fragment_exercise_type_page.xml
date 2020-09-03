@@ -1,7 +1,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.woodward.gainztrackerv2.exerciseselection.exercisetypeselection.ExerciseTypeViewModel" />
@@ -32,6 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textColor="#FFFFFF"
+                app:androidvisibility="@{viewModel.noExerciseTypesAvailable}"
                 android:text="@string/NoExerciseTypes"
                 android:visibility="gone" />
 

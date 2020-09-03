@@ -36,4 +36,7 @@
     <string name="weight_exercise_data_title">Weighted Exercise Data</string>
     <string name="Input_Error_For_Fields">The Fields Have No Been Correctly Inputted, Please ensure ALL fields contain data</string>
     <string name="delete_all_exercise_data">Delete All Exercise Data</string>
+    <string name="return_home">return home</string>
+    <string name="submit_button_data">Submit</string>
+    <string name="clear_button_data">Clear</string>
 </resources>

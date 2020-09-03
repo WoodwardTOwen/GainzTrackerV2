@@ -49,7 +49,7 @@ class ExerciseRepository @Inject constructor(val dao: WeightedExerciseDao) {
     }
 
     @WorkerThread
-    fun getNameAndSetsForDateMainUI (date: String) : LiveData<List<WeightedExerciseData?>> {
+    fun getNameAndSetsForDateMainUI (date: String) : LiveData<List<WeightedExerciseData>> {
         Timber.i("Call for Main UI Recycler View -> name and date info")
         return dao.GetNameAndSetsForDate(date)
     }
@@ -67,8 +67,14 @@ class ExerciseRepository @Inject constructor(val dao: WeightedExerciseDao) {
     }
 
     @WorkerThread
-    fun getListOfWeightResistedDate(date: String) : LiveData<List<WeightedExerciseData?>>{
+    fun getListOfWeightResistedDate(date: String, name: String) : LiveData<List<WeightedExerciseData?>>{
         Timber.i("Call for get all exercise data for adapter")
-        return dao.GetAllExercisesByDate(date)
+        return dao.GetDataForDateAndName(date, name)
+    }
+
+    @WorkerThread
+    fun getAllWeightSetDataForDate(date: String) : LiveData<Int?> {
+        Timber.i("Call for get all exercise set data for adapter")
+        return dao.getAllWeightSetDataForDate(date)
     }
 }

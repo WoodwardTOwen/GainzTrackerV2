@@ -83,6 +83,14 @@ class ExerciseTypeViewModel @ViewModelInject constructor (val repository: Exerci
         this._isCardio.value = null
     }
 
+    /**
+     * Monitors if the TextView should be displayed over in the view
+     */
+
+    val noExerciseTypesAvailable = Transformations.map(exerciseTypeList) {
+        it.isEmpty()
+    }
+
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()

@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.woodward.gainztrackerv2.database.entity.Category
 import com.woodward.gainztrackerv2.databinding.ListItemCategoryDetailsBinding
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
-class CategoryAdapter(val clickListener: CategoryAdapterListener) :
+@FragmentScoped
+class CategoryAdapter @Inject constructor(val clickListener: CategoryAdapterListener) :
     ListAdapter<Category, CategoryAdapter.ViewHolder>(CategoryDiffUtil()) {
     /**
      * Called when the recyclerview needs a new view holder
@@ -52,7 +55,8 @@ class CategoryAdapter(val clickListener: CategoryAdapterListener) :
     }
 }
 
-class CategoryAdapterListener(val clickListener: (catID : Int) -> Unit) {
+@FragmentScoped
+class CategoryAdapterListener @Inject constructor(@JvmSuppressWildcards val clickListener: (Int) -> Unit) {
     fun onClick(cat: Category) = clickListener(cat.categoryID)
 }
 

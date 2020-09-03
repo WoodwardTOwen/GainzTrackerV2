@@ -3,6 +3,7 @@ package com.woodward.gainztrackerv2.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.woodward.gainztrackerv2.main.adapters.groupie.WeightItem
 
 @Entity(tableName = "Weight_Exercise_Data_Table")
 data class WeightedExerciseData(
@@ -18,3 +19,4 @@ data class WeightedExerciseData(
     var rpe: Int,
     var sets: Int
 )
+

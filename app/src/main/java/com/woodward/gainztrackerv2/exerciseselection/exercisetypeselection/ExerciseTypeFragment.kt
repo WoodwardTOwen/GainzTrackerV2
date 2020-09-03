@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentExerciseTypePageBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ExerciseTypeFragment : Fragment() {
@@ -17,7 +18,7 @@ class ExerciseTypeFragment : Fragment() {
     private var _binding: FragmentExerciseTypePageBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: ExerciseTypeAdapter
+    @Inject lateinit var adapter: ExerciseTypeAdapter
 
     /**
      * Gets the arguments passed over from the category through navigation args
@@ -52,13 +53,13 @@ class ExerciseTypeFragment : Fragment() {
     private fun setUpNavigation() {
         exerciseTypeViewModel.navigateToWeightExerciseDetails.observe(
             viewLifecycleOwner,
-            Observer { exercise ->
-                exercise?.let {
-                    if (exercise == false) {
+            Observer { isCardio ->
+                isCardio?.let {
+                    if (isCardio == false) {
                         this.findNavController()
                             .navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToExerciseDetails(exerciseTypeViewModel.exerciseName.value!!))
                         exerciseTypeViewModel.doneNavigatingToWeightExerciseDetails()
-                    } else if(exercise == true) {
+                    } else if(isCardio == true) {
                         this.findNavController()
                             .navigate(ExerciseTypeFragmentDirections.actionExerciseTypePageToExerciseDetailsCardio(exerciseTypeViewModel.exerciseName.value!!))
                         exerciseTypeViewModel.doneNavigatingToWeightExerciseDetails()
@@ -72,7 +73,6 @@ class ExerciseTypeFragment : Fragment() {
             exerciseTypeViewModel.setExerciseName(exercise.exerciseTypeName)
             exerciseTypeViewModel.setIsCardio(exercise.isCardio)
             exerciseTypeViewModel.setNavigation(exercise.isCardio)
-            val x = exerciseTypeViewModel.exerciseName.value
         })
         binding.exerciseRecyclerView.adapter = adapter
     }

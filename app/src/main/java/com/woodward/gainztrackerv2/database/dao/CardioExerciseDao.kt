@@ -13,4 +13,7 @@ interface CardioExerciseDao {
 
     @Delete
     suspend fun deleteCardioExercise(cardio: CardiovascularExerciseData)
+
+    @Query("SELECT sets FROM cardio_exercise_data_table WHERE date = :date")
+    suspend fun getAllCardioSetDataForDate(date: String?) : Int
 }

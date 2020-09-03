@@ -18,28 +18,43 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <DigitalClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:textColor="@color/colorLightBlue"
+                android:textSize="35sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewMainUITitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.355" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewMainUIExerciseListForDate"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                app:cardCornerRadius="4dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewMainUITitle"
+                app:layout_constraintVertical_bias="1.0"
                 tools:listitem="@layout/list_item_main_ui" />
 
             <TextView
                 android:id="@+id/textViewMainUITitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="140dp"
-                android:text="MainUI"
+                android:layout_marginTop="124dp"
+                android:text="@{viewModel.currentDate}"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Hi, Im a Date" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/floating_action_button_add_exercise"
@@ -49,6 +64,7 @@
                 android:layout_marginTop="52dp"
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/add_floating_action"
+                android:backgroundTint="@color/colorLightBlue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/recyclerViewMainUIExerciseListForDate"

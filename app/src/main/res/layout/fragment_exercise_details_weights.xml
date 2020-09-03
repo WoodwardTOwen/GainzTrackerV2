@@ -20,6 +20,7 @@
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,10 +42,10 @@
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="40dp"
             app:dateFormattedExerciseDetails="@{viewModel.currentDate}"
             app:layout_constraintEnd_toEndOf="@+id/incrementWeightBnt"
-            app:layout_constraintHorizontal_bias="0.485"
+            app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="@+id/decrementWeightBnt"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Date: 20/10/20" />
@@ -53,7 +54,7 @@
             android:id="@+id/decrementWeightBnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="112dp"
+            android:layout_marginTop="80dp"
             android:layout_marginEnd="64dp"
             android:onClick="@{() -> viewModel.decrementWeight()}"
             android:text="@string/decrementButton"
@@ -62,60 +63,85 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <EditText
             android:id="@+id/weightEditTextExerciseDetailsWeight"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:textAlignment="center"
+            android:layout_marginTop="24dp"
             android:hint="@string/weight_hint_placeholder"
-            app:text="@={viewModel.weightEntered}"
             android:inputType="numberDecimal"
+            android:textAlignment="center"
             app:layout_constraintEnd_toStartOf="@+id/incrementWeightBnt"
             app:layout_constraintHorizontal_bias="0.476"
             app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
-            app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/dateTextView"
+            app:text="@={viewModel.weightEntered}" />
 
         <Button
             android:id="@+id/incrementWeightBnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="112dp"
-            android:text="@string/incrementButton"
+            android:layout_marginTop="80dp"
             android:onClick="@{() -> viewModel.incrementWeight()}"
+            android:text="@string/incrementButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <EditText
             android:id="@+id/weightEditTextExerciseDetailsReps"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="12dp"
+            android:hint="@string/rep_rpe_hint_placeholder"
             android:inputType="number"
             android:textAlignment="center"
-            android:hint="@string/rep_rpe_hint_placeholder"
-            app:text="@={viewModel.repsEntered}"
             app:layout_constraintEnd_toStartOf="@+id/incrementWeightBnt"
             app:layout_constraintHorizontal_bias="0.476"
             app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
-            app:layout_constraintTop_toBottomOf="@+id/weightEditTextExerciseDetailsWeight" />
+            app:layout_constraintTop_toBottomOf="@+id/weightEditTextExerciseDetailsWeight"
+            app:text="@={viewModel.repsEntered}" />
 
         <EditText
             android:id="@+id/weightEditTextExerciseDetailsRPE"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:textAlignment="center"
-            android:inputType="number"
+            android:layout_marginTop="12dp"
             android:hint="@string/rep_rpe_hint_placeholder"
-            app:text="@={viewModel.rpeEntered}"
+            android:inputType="number"
+            android:textAlignment="center"
             app:layout_constraintEnd_toStartOf="@+id/incrementWeightBnt"
             app:layout_constraintHorizontal_bias="0.476"
             app:layout_constraintStart_toEndOf="@+id/decrementWeightBnt"
-            app:layout_constraintTop_toBottomOf="@+id/weightEditTextExerciseDetailsReps" />
+            app:layout_constraintTop_toBottomOf="@+id/weightEditTextExerciseDetailsReps"
+            app:text="@={viewModel.rpeEntered}" />
+
+        <Button
+            android:id="@+id/exerciseDetailsWeightSubmitButton"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="56dp"
+            android:onClick="@{() -> viewModel.onSubmit()}"
+            android:text="@string/submit_button_data"
+            android:backgroundTint="@color/colorGreen"
+            app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/weightEditTextExerciseDetailsRPE"
+            app:layout_constraintVertical_bias="0.442" />
+
+        <Button
+            android:id="@+id/exerciseDetailsWeightClearBnt"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="56dp"
+            android:text="@string/clear_button_data"
+            android:background="@color/colorRed"
+            app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/weightEditTextExerciseDetailsRPE"
+            app:layout_constraintVertical_bias="0.442" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.woodward.gainztrackerv2.database.entity.WeightedExerciseData
 import com.woodward.gainztrackerv2.databinding.ListItemExerciseDetailsWeightBinding
+import dagger.hilt.android.scopes.FragmentScoped
+import javax.inject.Inject
 
-class ExerciseDetailsAdapterWeights(val clickListener: ExerciseDetailsAdapterListener) :
+@FragmentScoped
+class ExerciseDetailsAdapterWeights @Inject constructor(val clickListener: ExerciseDetailsAdapterListener) :
     ListAdapter<WeightedExerciseData, ExerciseDetailsAdapterWeights.ViewHolder>(
         ExerciseDetailsWeightExerciseDiffUtil()
     ) {
@@ -47,7 +50,8 @@ class ExerciseDetailsAdapterWeights(val clickListener: ExerciseDetailsAdapterLis
     }
 }
 
-class ExerciseDetailsAdapterListener(val clickListener: (weightedExerciseData: WeightedExerciseData) -> Unit) {
+@FragmentScoped
+class ExerciseDetailsAdapterListener@Inject constructor(@JvmSuppressWildcards val clickListener: (weightedExerciseData: WeightedExerciseData) -> Unit) {
     fun onClick(exercises: WeightedExerciseData) =
         clickListener(exercises)
 }

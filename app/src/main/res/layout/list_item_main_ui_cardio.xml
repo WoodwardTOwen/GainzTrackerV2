@@ -8,10 +8,6 @@
         <variable
             name="exercise"
             type="com.woodward.gainztrackerv2.database.entity.CardiovascularExerciseData" />
-
-        <variable
-            name="clickListener"
-            type="com.woodward.gainztrackerv2.main.adapters.MainUiAdapterListenerCardio" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -27,7 +23,6 @@
             android:layout_height="wrap_content"
             android:background="#cccccc"
             android:padding="10dp"
-            android:onClick="@{() -> clickListener.onClick(exercise)}"
             >
             <!-- onClick goes here -->
 

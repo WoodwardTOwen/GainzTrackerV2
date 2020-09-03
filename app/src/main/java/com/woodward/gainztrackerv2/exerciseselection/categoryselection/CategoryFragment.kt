@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.woodward.gainztrackerv2.R
 import com.woodward.gainztrackerv2.databinding.FragmentCategoryPageBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CategoryFragment : Fragment() {
 
     private val categoryFragViewModel: CategoryViewModel by viewModels()
 
-    private lateinit var adapter: CategoryAdapter
+    @Inject lateinit var adapter: CategoryAdapter
 
     private var _binding: FragmentCategoryPageBinding? = null
     private val binding get() = _binding!!
@@ -84,7 +85,7 @@ class CategoryFragment : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    categoryFragViewModel.onDelete(adapter.getCategoryPosition(viewHolder.adapterPosition))
+                    categoryFragViewModel.onDelete(adapter.getCategoryPosition(viewHolder.bindingAdapterPosition))
                     Toast.makeText(
                         context,
                         getString(R.string.Deleted_Category),

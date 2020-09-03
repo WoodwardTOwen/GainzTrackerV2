@@ -1,6 +1,7 @@
 package com.woodward.gainztrackerv2.main
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.appcompat.app.AppCompatActivity
 import com.woodward.gainztrackerv2.R
 import dagger.hilt.android.AndroidEntryPoint
