@@ -34,6 +34,7 @@
     <string name="rep_rpe_hint_placeholder">0</string>
     <string name="Title">GainzTrackerV2</string>
     <string name="weight_exercise_data_title">Weighted Exercise Data</string>
+    <string name="cardio_title">CardioVascular Exercise Data</string>
     <string name="Input_Error_For_Fields">The Fields Have No Been Correctly Inputted, Please ensure ALL fields contain data</string>
     <string name="delete_all_exercise_data">Delete All Exercise Data</string>
     <string name="return_home">return home</string>

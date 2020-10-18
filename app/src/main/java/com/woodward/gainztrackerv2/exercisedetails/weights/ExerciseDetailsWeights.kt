@@ -20,10 +20,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ExerciseDetailsWeights : Fragment() {
 
-    companion object {
-        const val DATA_SUBMITTED: String = "DATA_SUBMITTED"
-    }
-
     private var _binding: FragmentExerciseDetailsWeightsBinding? = null
     private val binding get() = _binding!!
 

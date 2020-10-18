@@ -47,18 +47,16 @@ class ExerciseDetailsViewModelWeights @ViewModelInject constructor(val repositor
      * the exercise type
      */
 
-    private val _newDataSubmitted = MutableLiveData(false)
-    val newDataSubmitted: LiveData<Boolean>
-        get() = _newDataSubmitted
+    private val newDataSubmitted = MutableLiveData(false)
 
     private fun setNewDataSubmitted() {
-        _newDataSubmitted.value = true
+        newDataSubmitted.value = true
     }
 
     fun getNewDataSubmittedStatus() = newDataSubmitted.value
 
     fun resetStatusForNewDataSubmitted() {
-        _newDataSubmitted.value = false
+        newDataSubmitted.value = false
     }
 
     /**

@@ -64,7 +64,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun setUpListObserver() {
-        categoryFragViewModel.listOfCategories.observe(viewLifecycleOwner, Observer { categories ->
+        categoryFragViewModel.listOfCategories.observe(viewLifecycleOwner, { categories ->
             categories?.let {
                 adapter.submitList(categories)
             }
